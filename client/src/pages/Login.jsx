@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import loginUndraw from "../assets/imgs/loginUndraw.svg";
 import logo from "../assets/imgs/logo.png";
 import toast, { Toaster } from 'react-hot-toast';
+import VendorService from "../services/VendorService";
 const Login = () => {
   const navigate = useNavigate();
   const [loginType, setLoginType] = useState("");
+  const [loading, setLoading] = useState(false);
   const [login, setLogin] = useState({
     email: "",
     password: "",
@@ -16,52 +18,56 @@ const Login = () => {
     let error = {}
     if (login.email.trim() === '') {
       error.email = true;
-      toast.error("Enter your Email");
     }
-    if (login.password.trim() === '' || login.password.length < 6 || login.password.length > 15) {
+    if (login.password.trim() === '') {
       error.password = true;
-      if (login.password.trim() === '')
-        toast.error("Type Your Password");
-      else
-        toast.error("Password must be at least 6 characters and less than 15 characters");
     }
-
     setLoginError(error);
     return error;
   }
 
-  const Login = (e) => {
+  const Login = async (e) => {
     e.preventDefault();
     const error = Validate();
-    if (!error.email && !error.password){
-      console.log("Login Success");
-      navigate('/home')
+    if (!error.email && !error.password) {
+      setLoading(true);
+      await VendorService.Login(login).then((res) => {
+        const response = res.data;
+        if (response.error === null) {
+          setTimeout(() => {
+            setLoading(false);
+            if (response.data.verified)
+              navigate("/home");
+            else
+              toast.error("Admin Not Verified");
+          }, 1000);
+        }
+        else {
+          toast.error(response.error);
+          setLoginError({});
+          let error = {};
+          if (response.error === "Invalid Email")
+            error.email = response.error;
+          else
+            error.password = response.error;
+          setLoginError(error);
+          setTimeout(() => {
+            setLoading(false);
+          }, 500);
+        }
+      })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    // userApi
-    //   .get("/login", {
-    //     params: {
-    //       email: login.email,
-    //       password: login.password,
-    //     },
-    //   })
-    //   .then((response) => {
-    //     console.log(response);
-    //     if (
-    //       response.data !== "Invalid Password" &&
-    //       response.data !== "Email Not Register"
-    //     )
-    //       navigate("/home");
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  };
+  }
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLogin({ ...login, [name]: value });
+    setLoginError({ ...loginError, [name]: false });
   };
   return (
-    <div className="bg-[#f6f6f6] min-h-screen flex justify-evenly items-center mx-auto max-md:flex-col">
+    <div className="bg-bgGray min-h-screen flex justify-evenly items-center mx-auto max-md:flex-col">
       <Toaster />
       <div className="absolute top-0 max-md:left-0 max-md:relative">
         <img
@@ -83,7 +89,7 @@ const Login = () => {
         </p>
         <div className="flex flex-col">
           <img
-            className="h-48 w-48 mx-auto"
+            className="h-48 w-48 mx-auto "
             src={loginUndraw}
             alt=""
           />
@@ -141,7 +147,7 @@ const Login = () => {
           >
             <input
               type="email"
-              className={`border-gray ${loginError.email && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[300px] rounded-lg outline-none border-[2.0px] `}
+              className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af] ${loginError.email && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[300px] rounded-lg outline-none border-[2.0px] `}
               placeholder="Email"
               name="email"
               id="email"
@@ -149,7 +155,7 @@ const Login = () => {
               value={login.email}
             />
             <input
-              className={`border-gray ${loginError.password && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[300px] rounded-lg outline-none border-[2.0px] `}
+              className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af] ${loginError.password && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[300px] rounded-lg outline-none border-[2.0px] `}
               placeholder="Password"
               type="password"
               name="password"
@@ -157,24 +163,48 @@ const Login = () => {
               onChange={handleChange}
               value={login.password}
             />
-            <input
-              className="bg-blue m-4 text-white px-5 py-2 cursor-pointer rounded-md hover:bg-hoverBlue"
-              type="submit"
-              value="Login"
-            // onClick={Login}
-            />
+            {loading ? <div
+              className="bg-blue m-4 text-white flex justify-center items-center min-w-[90px] h-10 px-5 py-2 cursor-pointer rounded-md hover:bg-hoverBlue"
+            > <svg
+              className="animate-spin flex justify-center items-center h-6 w-6 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+                <circle
+                  className="opacity-20"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg></div>
+              :
+              <input
+                className="bg-blue m-4 text-white px-5 py-2 min-w-[90px] cursor-pointer rounded-md hover:bg-hoverBlue"
+
+                type="submit"
+                value={"Login"}
+              />
+            }
           </form>
           <div className="flex justify-between mx-10 text-sm mb-10">
             <p>
               New ?{" "}
               <span
-                onClick={() => navigate("/signup")}
-                className="text-blue  hover:text-hoverBlue font-semibold cursor-pointer"
+                onClick={() => navigate("/signUp")}
+                className="text-blue hover:underline  hover:text-hoverBlue font-semibold cursor-pointer"
               >
                 SignUp
               </span>
             </p>
-            <p className="text-blue hover:text-hoverBlue cursor-pointer">
+            <p onClick={()=>navigate('/forgetPwd')} className="text-blue hover:underline hover:text-hoverBlue cursor-pointer">
               forget your password?
             </p>
           </div>

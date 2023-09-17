@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         blue: "#2998FF",
+        bgGray: "#f6f6f6",
         hoverBlue: "#007ef3",
         gray: "#d9d9d9",
         darkGray: "#35393a",

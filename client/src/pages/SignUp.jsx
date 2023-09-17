@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { userApi,otpApi } from "../apis/axios";
 import signUpUndraw from "../assets/imgs/signupUndraw.svg";
 import logo from "../assets/imgs/logo.png";
 import toast, { Toaster } from "react-hot-toast";
+import OtpService from "../services/OtpService";
+import VendorService from "../services/VendorService";
 const SignUp = () => {
   const navigate = useNavigate();
   const [signUpType, setSignUpType] = useState("");
   const [otp, setOtp] = useState("");
   const [actualOtp, setActualOtp] = useState("");
   const [showOtpInput, setShowOtpInput] = useState(false);
+  const [passStrength, setPassStrength] = useState('');
   const [signUp, setSignUp] = useState({
     firstName: "",
     lastName: "",
@@ -19,9 +21,29 @@ const SignUp = () => {
   });
   const [signUpError, setSignUpError] = useState({});
   const [loading, setLoading] = useState(false);
+  const checkPassword = (password) => {
+    if (password.trim() === '')
+      return 0;
+    let i = 0;
+    if (password.length > 6)
+      i++
+    if (password.length >= 10)
+      i++;
+    if (/[A-Z]/.test(password))
+      i++;
+    if (/[0-9]/.test(password))
+      i++;
+    if (/[!@#$%^&*()_+{}\\[\]:;<>,.?~\\]/.test(password))
+      i++;
+    if (/[A-Za-z0-9]/.test(password))
+      i++;
+    return i;
+  }
   const Validate = () => {
     setSignUpError({});
     let error = {}
+    if (signUpType === '')
+      error.signUpType = true;
     if (signUp.firstName.trim() === '') {
       error.firstName = true;
     }
@@ -29,59 +51,78 @@ const SignUp = () => {
       error.lastName = true;
     if (signUp.email.trim() === '')
       error.email = true;
-    if (signUp.password.trim() === '' || signUp.password.length < 6 || signUp.password.length > 15) {
+    if (signUp.password.trim() === '') {
       error.password = true;
-      // if (signUp.password.trim() === '')
-      // toast.error("Enter Your Password");
-      // else
-      // toast.error("Password must be at least 6 characters and less than 15 characters");
     }
-    if (signUp.confirmPassword.trim() === '' || signUp.confirmPassword.length < 6 || signUp.confirmPassword.length > 15 || signUp.password !== signUp.confirmPassword)
+    if (passStrength !== 'strong')
+      error.password = true;
+    if (signUp.confirmPassword.trim() === '' || signUp.password !== signUp.confirmPassword)
       error.confirmPassword = true;
-
     setSignUpError(error);
     return error;
   }
 
-  const SignUp = (e) => {
+  const SignUp = async (e) => {
     e.preventDefault();
     const error = Validate();
-    if (!error.firstName && !error.lastName && !error.email && !error.password && !error.confirmPassword) {
-      setLoading(true)
-      otpApi.get('/send-otp', { params: { email: signUp.email, name: signUp.firstName } }).then((response) => {
+    if (!error.firstName && !error.lastName && !error.email && !error.password && !error.confirmPassword && !error.signUpType) {
+      setLoading(true);
+      await OtpService.SignUpSendOtp(signUp).then((res) => {
+        const response = res.data;
+        if (response.error === null)
+          setShowOtpInput(true);
+        else {
+          toast.error(response.error);
+          setLoading(false);
+          return;
+        }
         setActualOtp(response.data);
-        setShowOtpInput(true);
-        setLoading(false)
+        setLoading(false);
       }).catch((error) => {
         console.log(error);
       })
     }
-    userApi
-      .post("/signup", signUp)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
-  const Verify = (e) => {
+  const Verify = async (e) => {
     e.preventDefault();
-    if (actualOtp.toString() === otp) {
-      toast.success("OTP verified successfully");
-      navigate('/login');
+    if (actualOtp === otp) {
+      setLoading(true);
+      await VendorService.SignUp(signUp)
+        .then((response) => {
+          console.log(response);
+          setLoading(false);
+          toast.success("OTP verified successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    else{
-      toast.error("Invalid otp")
+    else {
+      toast.error("Invalid otp");
     }
   }
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(value);
     setSignUp({ ...signUp, [name]: value });
+    setSignUpError({ ...signUpError, [name]: false });
+    if (name === 'password') {
+      let strength = checkPassword(e.target.value);
+      if (strength === 0)
+        setPassStrength('');
+      else if (strength <= 2)
+        setPassStrength('weak');
+      else if (strength >= 2 && strength <= 4)
+        setPassStrength('medium');
+      else
+        setPassStrength('strong');
+    }
   };
   return (
-    <div className="bg-[#f6f6f6] min-h-screen flex justify-evenly items-center mx-auto max-lg:flex-col">
-      <Toaster />
+    <div className="bg-bgGray min-h-screen flex justify-evenly items-center mx-auto max-lg:flex-col">
+      <Toaster
+
+      />
       <div className="absolute top-0 max-md:left-0 max-lg:relative">
         <img
           className="h-48 w-48 max-md:h-36 max-md:w-36"
@@ -134,7 +175,7 @@ const SignUp = () => {
                 className={`${signUpType === "organization"
                   ? "bg-blue hover:bg-hoverBlue cursor-pointer px-3 h-[50px]  rounded-l-lg  text-white text-center border-[2px] border-transparent min-w-[150px] outline-none border-l-[2.0px] border-t-[2.0px] border-b-[2.0px] border-r-[1.0px]"
                   : "px-3 h-[50px]  border-[2px] border-gray rounded-l-lg cursor-pointer text-center min-w-[150px] border-l-[2.0px] border-t-[2.0px] border-b-[2.0px] border-r-[1.0px]"
-                  } flex items-center justify-center`}
+                  }  ${signUpError.signUpType && "border-inputErrorRed"} flex items-center justify-center`}
                 htmlFor="organization"
               >
                 <input
@@ -142,7 +183,8 @@ const SignUp = () => {
                   className="appearance-none"
                   name="signUpType"
                   id="organization"
-                  onChange={() => setSignUpType("organization")}
+                  disabled={showOtpInput}
+                  onChange={() => { setSignUpType("organization"); setSignUpError({ ...signUpError, signUpType: false }) }}
                 />
                 Organization
               </label>
@@ -150,7 +192,7 @@ const SignUp = () => {
                 className={`${signUpType === "vendor"
                   ? "bg-blue hover:bg-hoverBlue cursor-pointer px-3 h-[50px]  rounded-r-lg  text-white text-center border-[2px] border-transparent min-w-[150px] border-l-[1.0px] border-t-[2.0px] border-b-[2.0px] border-r-[3.0px] "
                   : "px-3 h-[50px]  border-[2px] border-gray rounded-r-lg cursor-pointer text-center min-w-[150px] border-l-[1.0px] border-t-[2.0px] border-b-[2.0px] border-r-[3.0px]"
-                  } flex items-center justify-center`}
+                  } ${signUpError.signUpType && "border-inputErrorRed"} flex items-center justify-center`}
                 htmlFor="vendor"
               >
                 <input
@@ -158,7 +200,8 @@ const SignUp = () => {
                   className="appearance-none"
                   name="signUpType"
                   id="vendor"
-                  onChange={() => setSignUpType("vendor")}
+                  disabled={showOtpInput}
+                  onChange={() => { setSignUpType("vendor"); setSignUpError({ ...signUpError, signUpType: false }) }}
                 />
                 Vendor
               </label>
@@ -166,57 +209,78 @@ const SignUp = () => {
             <div className="flex justify-center m-3">
               <input
                 type="text"
-                className={` border-gray ${signUpError.firstName && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray h-[50px] px-[20px] py-[10px] text-lg max-w-[190px] rounded-l-lg outline-none border-l-[2.0px] border-t-[2.0px] border-b-[2.0px] border-r-[1.0px] `}
+                className={` border-gray focus:border-blue focus:placeholder:text-[#9ca3af]  ${signUpError.firstName && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray h-[50px] px-[20px] py-[10px] text-lg max-w-[190px] rounded-l-lg outline-none border-l-[2.0px] border-t-[2.0px] border-b-[2.0px] border-r-[1.0px] `}
                 placeholder="First Name"
                 name="firstName"
                 id="firstName"
+                disabled={showOtpInput}
                 onChange={handleChange}
                 value={signUp.firstName}
               />
               <input
                 type="text"
-                className={`border-gray ${signUpError.lastName && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray h-[50px] px-[20px] py-[10px] text-lg max-w-[190px] rounded-r-lg outline-none border-l-[1.0px] border-t-[2.0px] border-b-[2.0px] border-r-[2.0px] `}
+                className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af]  ${signUpError.lastName && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray h-[50px] px-[20px] py-[10px] text-lg max-w-[190px] rounded-r-lg outline-none border-l-[1.0px] border-t-[2.0px] border-b-[2.0px] border-r-[2.0px] `}
                 placeholder="Last Name"
                 name="lastName"
                 id="lastName"
+                disabled={showOtpInput}
                 onChange={handleChange}
                 value={signUp.lastName}
               />
             </div>
             <input
               type="email"
-              className={`border-gray ${signUpError.email && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] `}
+              className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af]  ${signUpError.email && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] `}
               placeholder="Email"
               name="email"
               id="email"
+              disabled={showOtpInput}
               onChange={handleChange}
               value={signUp.email}
             />
+            <div className="relative">
+              <input
+                className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af]  relative ${signUpError.password && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] border-gray`}
+                placeholder="Password"
+                type="password"
+                name="password"
+                id="password"
+                disabled={showOtpInput}
+
+                onChange={handleChange}
+                value={signUp.password}
+              />
+              <div className="absolute right-3 w-14 h-2 rounded-xl -bottom-1 transition-width duration-500 ease-in-out">
+                {passStrength === 'weak' ?
+                  (<div className="bg-inputErrorRed rounded-l-xl h-2 w-[25%]  transition-width duration-500 ease-in-out"></div>)
+                  : passStrength === 'medium' ?
+                    (<div className="bg-yellow-400 rounded-l-xl h-2 w-[73%] transition-width duration-500 ease-in-out"></div>)
+
+                    : passStrength === 'strong' ?
+                      (<div className="bg-green-500 rounded-l-xl rounded-r-xl h-2 w-[100%] transition-width duration-500 ease-in-out"></div>)
+                      :
+                      (<div className="bg-transparent rounded-l-xl w-[5%] transition-width"></div>)
+                }
+              </div>
+            </div>
             <input
-              className={`border-gray ${signUpError.password && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] border-gray`}
-              placeholder="Password"
-              type="password"
-              name="password"
-              id="password"
-              onChange={handleChange}
-              value={signUp.password}
-            />
-            <input
-              className={`border-gray ${signUpError.confirmPassword && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] `}
+              className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af] ${signUpError.confirmPassword && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] `}
               placeholder="Confirm Password"
               type="password"
               name="confirmPassword"
               id="confirmPassword"
+              disabled={showOtpInput}
               onChange={handleChange}
               value={signUp.confirmPassword}
             />
             {showOtpInput &&
               <input
-                className={`border-gray ${signUpError.confirmPassword && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] `}
+                className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af]  ${signUpError.confirmPassword && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] `}
                 placeholder="OTP"
                 type="text"
                 name="opt"
                 id="otp"
+                maxLength={6}
                 onChange={(e) => setOtp(e.target.value)}
                 value={otp}
               />

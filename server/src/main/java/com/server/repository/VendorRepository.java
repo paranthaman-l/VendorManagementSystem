@@ -3,10 +3,10 @@ package com.server.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.server.model.User;
+import com.server.model.Vendor;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, String> {
+public interface VendorRepository extends CrudRepository<Vendor, String> {
 
-    User findByEmail(String email);
+    Vendor findByEmail(String email);
 }

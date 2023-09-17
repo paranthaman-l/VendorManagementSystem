@@ -12,6 +12,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.server.util.APIResponse;
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
@@ -21,18 +23,36 @@ public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void sendOtpEmail(String recipientEmail,String name, String otp) throws MessagingException,IOException {
+    public APIResponse sendOtpEmailForSignUP(String recipientEmail,String name, String otp) throws MessagingException,IOException {
+        APIResponse apiResponse = new APIResponse();
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setTo(recipientEmail);
         helper.setSubject("OTP Verification");
-
-        String templatePath = "templates/otp_email.html";
+        String templatePath = "templates/signup_otp_email.html";
         Resource resource = new ClassPathResource(templatePath);
         String content = new String(Files.readAllBytes(Paths.get(resource.getURI())), StandardCharsets.UTF_8);
         content = content.replace("[Name]", name);
         content = content.replace("[OTP]", otp);
         helper.setText(content, true);
         javaMailSender.send(message);
+        apiResponse.setData(otp);
+        return apiResponse;
+    }
+    public APIResponse sendOtpEmailForForgetPassword(String recipientEmail,String name, String otp) throws MessagingException,IOException {
+        APIResponse apiResponse = new APIResponse();
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setTo(recipientEmail);
+        helper.setSubject("Forget Password");
+        String templatePath = "templates/forgetPwd_otp_email.html";
+        Resource resource = new ClassPathResource(templatePath);
+        String content = new String(Files.readAllBytes(Paths.get(resource.getURI())), StandardCharsets.UTF_8);
+        content = content.replace("[Name]", name);
+        content = content.replace("[OTP]", otp);
+        helper.setText(content, true);
+        javaMailSender.send(message);
+        apiResponse.setData(otp);
+        return apiResponse;
     }
 }
