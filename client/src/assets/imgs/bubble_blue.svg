@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="529" height="522" viewBox="0 0 529 522">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-Shape_top_left);
+      }
+
+      .cls-2 {
+        opacity: 0.13;
+        isolation: isolate;
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="0.608" y1="0.463" x2="0.622" y2="0.889" gradientUnits="objectBoundingBox">
+     <stop offset="0" stop-color="#518aff"/>
+      <stop offset="1" stop-color="#9bbdff"/>
+    </linearGradient>
+    <clipPath id="clip-Shape_top_left">
+      <rect width="529" height="522"/>
+    </clipPath>
+  </defs>
+  <g id="Shape_top_left" class="cls-1">
+    <path id="Path_2149" data-name="Path 2149" class="cls-2" d="M408.291,144.436C510.256,203.305,533.057,354.7,459.22,482.6S285.6,592.429,183.631,533.56,16.134,397.3,89.972,269.412,306.327,85.567,408.291,144.436Z" transform="translate(-180.053 204.053) rotate(-44)"/>
+  </g>
+</svg>

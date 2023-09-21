@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import signUpUndraw from "../assets/imgs/signupUndraw.svg";
-import logo from "../assets/imgs/logo.png";
 import toast, { Toaster } from "react-hot-toast";
 import OtpService from "../services/OtpService";
 import VendorService from "../services/VendorService";
+import { logo, signUpUndraw } from "../constant";
+import { FcCheckmark } from 'react-icons/fc'
 const SignUp = () => {
   const navigate = useNavigate();
   const [signUpType, setSignUpType] = useState("");
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState(new Array(6).fill(""));
   const [actualOtp, setActualOtp] = useState("");
   const [showOtpInput, setShowOtpInput] = useState(false);
   const [passStrength, setPassStrength] = useState('');
+  const [passAndConPass, setPassAndConPass] = useState(false);
   const [signUp, setSignUp] = useState({
     firstName: "",
     lastName: "",
@@ -51,6 +52,8 @@ const SignUp = () => {
       error.lastName = true;
     if (signUp.email.trim() === '')
       error.email = true;
+    else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(signUp.email))
+      error.email = true;
     if (signUp.password.trim() === '') {
       error.password = true;
     }
@@ -61,7 +64,19 @@ const SignUp = () => {
     setSignUpError(error);
     return error;
   }
-
+  const handleOtpChange = (element, index, isBackspace) => {
+    if (isBackspace) {
+      setOtp([...otp.map((data, i) => (i === index ? "" : data))])
+      if (index > 0 && element.previousSibling) {
+        element.previousSibling.focus();
+      }
+    } else if (!isNaN(element.value)) {
+      setOtp([...otp.map((data, i) => (i === index ? element.value : data))])
+      if (element.nextSibling) {
+        element.nextSibling.focus();
+      }
+    }
+  }
   const SignUp = async (e) => {
     e.preventDefault();
     const error = Validate();
@@ -85,17 +100,29 @@ const SignUp = () => {
   };
   const Verify = async (e) => {
     e.preventDefault();
-    if (actualOtp === otp) {
+    const enteredOtp = otp.join('')
+    console.log(enteredOtp);
+    if (enteredOtp.length < 6) {
+      toast.error("Enter OTP");
+      return;
+    }
+    if (actualOtp === enteredOtp) {
       setLoading(true);
       await VendorService.SignUp(signUp)
-        .then((response) => {
-          console.log(response);
-          setLoading(false);
-          toast.success("OTP verified successfully");
+        .then((res) => {
+          const response = res.data;
+          setTimeout(() => {
+            setLoading(false);
+            if (response.error === null)
+              toast.success("OTP verified successfully");
+            else
+              toast.error(response.error);
+          }, 600)
         })
         .catch((err) => {
           console.log(err);
         });
+      setLoading(false);
     }
     else {
       toast.error("Invalid otp");
@@ -103,7 +130,6 @@ const SignUp = () => {
   }
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(value);
     setSignUp({ ...signUp, [name]: value });
     setSignUpError({ ...signUpError, [name]: false });
     if (name === 'password') {
@@ -117,11 +143,31 @@ const SignUp = () => {
       else
         setPassStrength('strong');
     }
+    if (name === 'confirmPassword') {
+      if (signUp.password === e.target.value)
+        setPassAndConPass(true);
+      else
+        setPassAndConPass(false);
+    }
   };
   return (
     <div className="bg-bgGray min-h-screen flex justify-evenly items-center mx-auto max-lg:flex-col">
       <Toaster
-
+        position="top-right"
+        toastOptions={{
+          error: {
+            style: {
+              backgroundColor: "#ff5e5b",
+              color: 'white',
+            }
+          },
+          success: {
+            style: {
+              backgroundColor: "#55ba45",
+              color: 'white',
+            },
+          }
+        }}
       />
       <div className="absolute top-0 max-md:left-0 max-lg:relative">
         <img
@@ -263,27 +309,41 @@ const SignUp = () => {
                 }
               </div>
             </div>
-            <input
-              className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af] ${signUpError.confirmPassword && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] `}
-              placeholder="Confirm Password"
-              type="password"
-              name="confirmPassword"
-              id="confirmPassword"
-              disabled={showOtpInput}
-              onChange={handleChange}
-              value={signUp.confirmPassword}
-            />
-            {showOtpInput &&
+            <div className="relative">
               <input
-                className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af]  ${signUpError.confirmPassword && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] `}
-                placeholder="OTP"
-                type="text"
-                name="opt"
-                id="otp"
-                maxLength={6}
-                onChange={(e) => setOtp(e.target.value)}
-                value={otp}
+                className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af] ${signUpError.confirmPassword && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] `}
+                placeholder="Confirm Password"
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                disabled={showOtpInput}
+                onChange={handleChange}
+                value={signUp.confirmPassword}
               />
+              <span className="absolute right-6 top-6">
+                {passAndConPass && <FcCheckmark className="text-xl" />}
+              </span>
+            </div>
+            {showOtpInput &&
+              <div className="flex    ">
+                {otp.map((data, i) => {
+                  // const isDisabled = i !== 0 && otp[i - 1] === "";
+                  return (
+                    <input
+                      className={`border-gray text-center flex justify-center items-center focus:border-blue focus:placeholder:text-[#9ca3af]  ${signUpError.otp && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-[2.5px] h-[50px] text-lg max-w-[45px] rounded-lg outline-none border-[2.0px] `}
+                      key={i}
+                      type="text"
+                      name="otp"
+                      onChange={(e) => handleOtpChange(e.target, i, e.target.value === "")}
+                      id={`otp${i}`}
+                      onFocus={(e) => e.target.select()}
+                      maxLength={1}
+                      value={data}
+                    // disabled={isDisabled}
+                    />
+                  )
+                })}
+              </div>
             }
             {loading ? <div
               className="bg-blue m-4 text-white flex justify-center items-center min-w-[100px] h-10 px-5 py-2 cursor-pointer rounded-md hover:bg-hoverBlue"

@@ -8,6 +8,7 @@ class UserService {
         return vendorApi.post('/signup', signUp);
     }
     ChangePassword(email, password) {
+        console.log(email,password);
         return vendorApi.get('/updatePwd', {params:{email,password}});
     }
 }

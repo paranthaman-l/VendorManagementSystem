@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import VendorService from '../services/VendorService';
 import toast from 'react-hot-toast';
-
+import { useNavigate } from 'react-router-dom';
+import { FcCheckmark } from 'react-icons/fc';
 const NewPassword = (email) => {
+    const navigate = useNavigate();
     const [passStrength, setPassStrength] = useState('');
+    const [passAndConPass, setPassAndConPass] = useState(false);
     const [pass, setPass] = useState({
         password: '',
         confirmPassword: ''
@@ -55,15 +58,25 @@ const NewPassword = (email) => {
             else
                 setPassStrength('strong');
         }
+        if (name === 'confirmPassword') {
+            if (pass.password === e.target.value)
+              setPassAndConPass(true);
+            else
+              setPassAndConPass(false);
+          }
     }
     const ChangePassword = async (e) => {
         e.preventDefault();
         let err = Validate();
         if (!err.password && !err.confirmPassword) {
             setLoading(true);
-            await VendorService.ChangePassword(email, pass.password).then((res) => {
+            await VendorService.ChangePassword(email.email, pass.password).then((res) => {
                 const response = res.data;
-                toast.success(response.data);
+                setTimeout(() => {
+                    toast.success(response.data);
+                    setLoading(false);
+                    navigate('/login');
+                }, 600)
             }).catch((err) => {
                 console.log(err);
             });
@@ -104,15 +117,21 @@ const NewPassword = (email) => {
                         }
                     </div>
                 </div>
-                <input
-                    className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af] ${error.confirmPassword && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] `}
-                    placeholder="Confirm Password"
-                    type="password"
-                    name="confirmPassword"
-                    id="confirmPassword"
-                    onChange={handleChange}
-                    value={pass.confirmPassword}
-                />
+                <div className="relative">
+
+                    <input
+                        className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af] ${error.confirmPassword && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] `}
+                        placeholder="Confirm Password"
+                        type="password"
+                        name="confirmPassword"
+                        id="confirmPassword"
+                        onChange={handleChange}
+                        value={pass.confirmPassword}
+                    />
+                    <span className="absolute right-6 top-6">
+                        {passAndConPass && <FcCheckmark className="text-xl" />}
+                    </span>
+                </div>
                 {loading ? <div
                     className="bg-blue m-4 text-white flex justify-center items-center min-w-[100px] h-10 px-5 py-2 cursor-pointer rounded-md hover:bg-hoverBlue"
                 > <svg

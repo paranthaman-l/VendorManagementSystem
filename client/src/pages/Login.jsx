@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import loginUndraw from "../assets/imgs/loginUndraw.svg";
-import logo from "../assets/imgs/logo.png";
 import toast, { Toaster } from 'react-hot-toast';
 import VendorService from "../services/VendorService";
+import { loginUndraw, logo } from "../constant";
 const Login = () => {
   const navigate = useNavigate();
   const [loginType, setLoginType] = useState("");
@@ -16,6 +15,8 @@ const Login = () => {
   const Validate = () => {
     setLoginError({});
     let error = {}
+    if (loginType === '')
+      error.loginType = true;
     if (login.email.trim() === '') {
       error.email = true;
     }
@@ -29,7 +30,7 @@ const Login = () => {
   const Login = async (e) => {
     e.preventDefault();
     const error = Validate();
-    if (!error.email && !error.password) {
+    if (Object.keys(error).length === 0) {
       setLoading(true);
       await VendorService.Login(login).then((res) => {
         const response = res.data;
@@ -43,15 +44,15 @@ const Login = () => {
           }, 1000);
         }
         else {
-          toast.error(response.error);
-          setLoginError({});
-          let error = {};
-          if (response.error === "Invalid Email")
-            error.email = response.error;
-          else
-            error.password = response.error;
-          setLoginError(error);
           setTimeout(() => {
+            toast.error(response.error);
+            setLoginError({});
+            let error = {};
+            if (response.error === "Invalid Email")
+              error.email = response.error;
+            else
+              error.password = response.error;
+            setLoginError(error);
             setLoading(false);
           }, 500);
         }
@@ -68,7 +69,21 @@ const Login = () => {
   };
   return (
     <div className="bg-bgGray min-h-screen flex justify-evenly items-center mx-auto max-md:flex-col">
-      <Toaster />
+      <Toaster position="top-right"
+        toastOptions={{
+          error: {
+            style: {
+              backgroundColor: "#ff5e5b",
+              color: 'white',
+            }
+          },
+          success: {
+            style: {
+              backgroundColor: "#55ba45",
+              color: 'white',
+            }
+          }
+        }} />
       <div className="absolute top-0 max-md:left-0 max-md:relative">
         <img
           className="h-48 w-48 max-md:h-36 max-md:w-36"
@@ -98,7 +113,7 @@ const Login = () => {
               className={`${loginType === "organization"
                 ? "bg-blue hover:bg-hoverBlue cursor-pointer px-5 py-2 rounded-lg  text-white text-center border-[2px] border-transparent min-w-[150px]"
                 : "px-5 py-2 border-[2px] border-gray rounded-lg cursor-pointer text-center min-w-[150px]"
-                } `}
+                } ${loginError.loginType && "border-inputErrorRed"}`}
               htmlFor="organization"
             >
               <input
@@ -106,7 +121,7 @@ const Login = () => {
                 className="appearance-none"
                 name="loginType"
                 id="organization"
-                onChange={() => setLoginType("organization")}
+                onChange={() => { setLoginType("organization"); setLoginError({ ...loginError, loginType: false }) }}
               />
               Organization
             </label>
@@ -114,7 +129,7 @@ const Login = () => {
               className={`${loginType === "vendor"
                 ? "bg-blue hover:bg-hoverBlue cursor-pointer px-5 py-2 rounded-lg  text-white text-center border-[2px] border-transparent min-w-[150px]"
                 : "px-5 py-2 border-[2px] border-gray rounded-lg cursor-pointer text-center min-w-[150px]"
-                } `}
+                } ${loginError.loginType && "border-inputErrorRed"} `}
               htmlFor="vendor"
             >
               <input
@@ -122,7 +137,7 @@ const Login = () => {
                 className="appearance-none"
                 name="loginType"
                 id="vendor"
-                onChange={() => setLoginType("vendor")}
+                onChange={() => { setLoginType("vendor"); setLoginError({ ...loginError, loginType: false }) }}
               />
               Vendor
             </label>
@@ -204,7 +219,7 @@ const Login = () => {
                 SignUp
               </span>
             </p>
-            <p onClick={()=>navigate('/forgetPwd')} className="text-blue hover:underline hover:text-hoverBlue cursor-pointer">
+            <p onClick={() => navigate('/forgetPwd')} className="text-blue hover:underline hover:text-hoverBlue cursor-pointer">
               forget your password?
             </p>
           </div>

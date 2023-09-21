@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import forgetPwd from "../assets/imgs/forgetPwd.svg";
-import logo from "../assets/imgs/logo.png";
 import toast, { Toaster } from "react-hot-toast";
 import OtpService from "../services/OtpService";
 import NewPassword from "../components/NewPassword";
+import { forgetPwd, logo } from "../constant";
+
 const ForgetPassword = () => {
     const navigate = useNavigate();
     const [type, setType] = useState("");
@@ -12,12 +12,14 @@ const ForgetPassword = () => {
     const [error, setError] = useState({});
     const [email, setEmail] = useState("");
     const [actualOtp, setActualOtp] = useState('');
-    const [otp, setOtp] = useState('');
+    const [otp, setOtp] = useState(new Array(6).fill(""));
     const [showOtpInput, setShowOtpInput] = useState('');
     const [showChangePassword, setShowChangePassword] = useState(false);
     const Validate = () => {
         setError({});
         let e = {};
+        if (type === '')
+            e.type = true;
         if (email.trim() === '')
             e.email = true;
         setError(e);
@@ -50,18 +52,53 @@ const ForgetPassword = () => {
     }
     const VerifyOtp = (e) => {
         e.preventDefault();
-        if(actualOtp===otp){
+        const enteredOtp = otp.join('')
+        if (enteredOtp.length < 6) {
+            toast.error("Enter OTP");
+            return;
+        }
+        if (actualOtp === enteredOtp) {
             toast.success("Verified");
             setShowChangePassword(true);
         }
-        else{
+        else {
             toast.error("Invalid OTP");
+            setError(true)
+        }
+    }
+    const handleOtpChange = (element, index, isBackspace) => {
+        if (isBackspace) {
+            setOtp([...otp.map((data, i) => (i === index ? "" : data))])
+            if (index > 0 && element.previousSibling) {
+                element.previousSibling.focus();
+            }
+        } else if (!isNaN(element.value)) {
+            setOtp([...otp.map((data, i) => (i === index ? element.value : data))])
+            if (element.nextSibling) {
+                element.nextSibling.focus();
+            }
         }
     }
     return (
         <div className="bg-bgGray min-h-screen flex justify-evenly items-center mx-auto max-md:flex-col">
-            {showChangePassword && <NewPassword email={email}/>}
-            <Toaster />
+            {showChangePassword && <NewPassword email={email} />}
+            <Toaster
+                position="top-right"
+                toastOptions={{
+                    error: {
+                        style: {
+                            backgroundColor: "#ff5e5b",
+                            color: 'white',
+                        },
+
+                    },
+                    success: {
+                        style: {
+                            backgroundColor: "#55ba45",
+                            color: 'white',
+                        },
+                    }
+                }} />
             <div className="absolute top-0 max-md:left-0 max-md:relative">
                 <img
                     className="h-48 w-48 max-md:h-36 max-md:w-36"
@@ -78,7 +115,7 @@ const ForgetPassword = () => {
                     Account
                 </p>
                 <p className="font-medium items-center text-lg mt-5 font-montserrat">
-                Recover Your Access and Streamline Your Supplier Relationship.
+                    Recover Your Access and Streamline Your Supplier Relationship.
                 </p>
                 <div className="flex flex-col">
                     <img
@@ -91,15 +128,15 @@ const ForgetPassword = () => {
                             className={`${type === "organization"
                                 ? "bg-blue hover:bg-hoverBlue cursor-pointer px-5 py-2 rounded-lg  text-white text-center border-[2px] border-transparent min-w-[150px]"
                                 : "px-5 py-2 border-[2px] border-gray rounded-lg cursor-pointer text-center min-w-[150px]"
-                                } `}
+                                }  ${error.type && "border-inputErrorRed"}`}
                             htmlFor="organization"
                         >
                             <input
                                 type="radio"
                                 className="appearance-none"
-                                name="loginType"
+                                name="ForgetPasswordType"
                                 id="organization"
-                                onChange={() => setType("organization")}
+                                onChange={() => { setType("organization"); setError({ ...error, type: false }) }}
                             />
                             Organization
                         </label>
@@ -107,7 +144,7 @@ const ForgetPassword = () => {
                             className={`${type === "vendor"
                                 ? "bg-blue hover:bg-hoverBlue cursor-pointer px-5 py-2 rounded-lg  text-white text-center border-[2px] border-transparent min-w-[150px]"
                                 : "px-5 py-2 border-[2px] border-gray rounded-lg cursor-pointer text-center min-w-[150px]"
-                                } `}
+                                }   ${error.type && "border-inputErrorRed"}`}
                             htmlFor="vendor"
                         >
                             <input
@@ -115,7 +152,7 @@ const ForgetPassword = () => {
                                 className="appearance-none"
                                 name="ForgetPasswordType"
                                 id="vendor"
-                                onChange={() => setType("vendor")}
+                                onChange={() => { setType("vendor"); setError({ ...error, type: false }) }}
                             />
                             Vendor
                         </label>
@@ -147,16 +184,35 @@ const ForgetPassword = () => {
                             onChange={(e) => { setEmail(e.target.value); setError({ ...error, email: false }) }}
                         />
                         {showOtpInput &&
-                            <input
-                                className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af]  ${error.otp && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[300px] rounded-lg outline-none border-[2.0px] `}
-                                placeholder="OTP"
-                                type="text"
-                                name="otp"
-                                id="otp"
-                                maxLength={6}
-                                onChange={(e) => setOtp(e.target.value)}
-                                value={otp}
-                            />
+                            // <input
+                            //     className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af]  ${error.otp && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[300px] rounded-lg outline-none border-[2.0px] `}
+                            //     placeholder="OTP"
+                            //     type="text"
+                            //     name="otp"
+                            //     id="otp"
+                            //     maxLength={6}
+                            //     onChange={(e) => setOtp(e.target.value)}
+                            //     value={otp}
+                            // />
+                            <div className="flex    ">
+                                {otp.map((data, i) => {
+                                    // const isDisabled = i !== 0 && otp[i - 1] === "";
+                                    return (
+                                        <input
+                                            className={`border-gray text-center flex justify-center items-center focus:border-blue focus:placeholder:text-[#9ca3af]  ${error.otp && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-[2.5px] h-[50px] text-lg max-w-[45px] rounded-lg outline-none border-[2.0px] `}
+                                            key={i}
+                                            type="text"
+                                            name="otp"
+                                            onChange={(e) => handleOtpChange(e.target, i, e.target.value === "")}
+                                            id={`otp${i}`}
+                                            onFocus={(e) => e.target.select()}
+                                            maxLength={1}
+                                            value={data}
+                                        // disabled={isDisabled}
+                                        />
+                                    )
+                                })}
+                            </div>
                         }
                         {loading ? <div
                             className="bg-blue m-4 text-white flex justify-center items-center min-w-[90px] h-10 px-5 py-2 cursor-pointer rounded-md hover:bg-hoverBlue"
@@ -198,7 +254,7 @@ const ForgetPassword = () => {
                                 SignUp
                             </span>
                         </p>
-                        <p onClick={()=>navigate('/login')} className="text-blue underline text-semibold hover:text-hoverBlue cursor-pointer">
+                        <p onClick={() => navigate('/login')} className="text-blue underline text-semibold hover:text-hoverBlue cursor-pointer">
                             SignIn
                         </p>
                     </div>
