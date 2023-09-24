@@ -21,6 +21,7 @@ public class AdminService {
     private AdminRepository adminRepository;
     @Autowired
     private VendorRepository vendorRepository;
+
     public APIResponse signup(Admin admin) {
         APIResponse apiResponse = new APIResponse();
         boolean isExistEmail = isExistEmail(admin.getEmail());
@@ -60,7 +61,6 @@ public class AdminService {
         return apiResponse;
     }
 
-
     public AdminDTO getAdmin(String vid) {
         Admin admin = adminRepository.findById(vid).get();
         AdminDTO adminDTO = new AdminDTO();
@@ -79,11 +79,20 @@ public class AdminService {
         APIResponse apiResponse = new APIResponse();
         ArrayList<Vendor> pendingVendors = vendorRepository.findAllByVerified(false);
         ArrayList<VendorDTO> pendingVendorDTOs = new ArrayList<>();
-        for(Vendor each : pendingVendors) {
+        for (Vendor each : pendingVendors) {
             pendingVendorDTOs.add(new VendorDTO(each));
         }
         // BeanUtils.copyProperties(pendingVendors, pendingVendorDTOs,"password");
         apiResponse.setData(pendingVendorDTOs);
+        return apiResponse;
+    }
+
+    public APIResponse approveVendor(String email) {
+        APIResponse apiResponse = new APIResponse();
+        Vendor vendor = vendorRepository.findByEmail(email);
+        vendor.setVerified(true);
+        vendorRepository.save(vendor);
+        apiResponse.setData("Approved Successfully");
         return apiResponse;
     }
 }

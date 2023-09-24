@@ -9,7 +9,7 @@ import { AiOutlineTeam } from 'react-icons/ai'
 import logo from '../../assets/imgs/delta.png'
 const Sidebar = ({ showSidebar }) => {
     const navigate = useNavigate();
-    const location = useLocation();
+    const location = useLocation;
     const currentPath = location.pathname;
     return (
         <>
@@ -18,7 +18,7 @@ const Sidebar = ({ showSidebar }) => {
                 <div className="h-screen z-10 text-white transition-width duration-500 ease-in-out bg-[#1f2f3e] fixed w-[7%]">
                     <ul className="flex flex-col justify-center">
                         <li className="text-4xl h-24 flex justify-center items-center font-nutnitoSans py-4 border-b-[1px] border-gray1 border-opacity-40 w-full text-center font-bold ">
-                            <p className="cursor-pointer "><img className='h-10 w-10' src={logo} alt="" /></p>
+                            <p className="cursor-pointer " onClick={()=>navigate('/')}><img className='h-10 w-10' src={logo} alt="" /></p>
                         </li>
                         <li className={`${currentPath==='/admin/dashboard' && "text-blue"} text-3xl h-24 flex justify-center items-center font-nutnitoSans py-4 border-b-[1px] border-gray1 border-opacity-40 w-full text-center font-bold `}>
                             <p onClick={() => navigate('/admin/dashboard')} className="cursor-pointer hover:text-blue">

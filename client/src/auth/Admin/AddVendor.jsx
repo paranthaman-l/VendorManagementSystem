@@ -31,7 +31,7 @@ const AddVendor = ({ addRef, showAddVendor, setShowAddVendor }) => {
     ]
 
     useEffect(() => {
-        document.body.style.overflow = showAddVendor ? "hidden" : "auto";
+        // document.body.style.overflow = showAddVendor ? "hidden" : "auto";
     }, [showAddVendor]);
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -55,10 +55,10 @@ const AddVendor = ({ addRef, showAddVendor, setShowAddVendor }) => {
                             type="text"
                             className={` border-gray focus:border-blue focus:placeholder:text-[#9ca3af]  ${vendorError.firstName && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray h-[50px] px-[20px] py-[10px] text-lg max-w-[190px] rounded-l-lg outline-none border-l-[2.0px] border-t-[2.0px] border-b-[2.0px] border-r-[1.0px] `}
                             placeholder="First Name"
-                            name="firstName"
-                            id="firstName"
+                            name="vendorName"
+                            id="vendorName"
                             onChange={handleChange}
-                            value={vendor.firstName}
+                            value={vendor.vendorName}
                         />
                         <input
                             type="text"

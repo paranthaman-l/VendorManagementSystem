@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.server.dto.LoginDTO;
@@ -37,6 +38,12 @@ public class AdminController {
     @PostMapping("/login")
     public ResponseEntity<APIResponse> login(@RequestBody LoginDTO loginDTO) {
         APIResponse apiResponse = adminService.login(loginDTO.getEmail(), loginDTO.getPassword());
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
+    }
+    
+    @GetMapping("/approveVendor")
+    public ResponseEntity<APIResponse> approveVendor(@RequestParam String email){
+        APIResponse apiResponse = adminService.approveVendor(email);
         return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
 

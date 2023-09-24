@@ -43,6 +43,9 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
+        {/* <div className="w-full pl-32 my-10">
+          <img className="w-1/4 object-contain" src="https://www.summit360.com/wp-content/uploads/2017/12/Vendor-Graph.jpg" alt="" />
+        </div> */}
       </div>
     </div>
   )

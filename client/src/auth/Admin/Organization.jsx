@@ -24,7 +24,7 @@ const Organization = () => {
       <DashboardNavbar setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
       <div className="flex flex-col bg-bgGray min-h-screen">
         <Sidebar showSidebar={showSidebar} />
-        <p className="ml-32 mt-24 mb-6 text-xl font-black font-nutnitoSans">Vendor</p>
+        <p className="ml-32 mt-24 mb-6 text-xl font-black font-nutnitoSans">Organization</p>
         <div className="pl-32  min-h-full relative top-0 ">
           <div className="font-nutnitoSans flex justify-between items-center text-lg">
             <ul className="flex items-center">

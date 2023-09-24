@@ -108,7 +108,7 @@ const NewPassword = (email) => {
                         {passStrength === 'weak' ?
                             (<div className="bg-inputErrorRed rounded-l-xl h-2 w-[25%]  transition-width duration-500 ease-in-out"></div>)
                             : passStrength === 'medium' ?
-                                (<div className="bg-yellow-400 rounded-l-xl h-2 w-[73%] transition-width duration-500 ease-in-out"></div>)
+                                (<div className="bg-yellow rounded-l-xl h-2 w-[73%] transition-width duration-500 ease-in-out"></div>)
 
                                 : passStrength === 'strong' ?
                                     (<div className="bg-green-500 rounded-l-xl rounded-r-xl h-2 w-[100%] transition-width duration-500 ease-in-out"></div>)

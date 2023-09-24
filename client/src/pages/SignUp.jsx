@@ -5,8 +5,14 @@ import OtpService from "../services/OtpService";
 import VendorService from "../services/VendorService";
 import { logo, signUpUndraw } from "../constant";
 import { FcCheckmark } from 'react-icons/fc'
+import { setVendor } from "../slices/vendorSlice";
+import {useDispatch, useSelector} from 'react-redux'
+import { getPendingVendors } from "../slices/adminSlice";
 const SignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const vendors = useSelector(getPendingVendors)
+  console.log(vendors);
   const [signUpType, setSignUpType] = useState("");
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [actualOtp, setActualOtp] = useState("");
@@ -113,8 +119,11 @@ const SignUp = () => {
           const response = res.data;
           setTimeout(() => {
             setLoading(false);
-            if (response.error === null)
+            if (response.error === null) {
               toast.success("OTP verified successfully");
+              navigate('/getDetails')
+              dispatch(setVendor(signUp))
+            }
             else
               toast.error(response.error);
           }, 600)
@@ -300,7 +309,7 @@ const SignUp = () => {
                 {passStrength === 'weak' ?
                   (<div className="bg-inputErrorRed rounded-l-xl h-2 w-[25%]  transition-width duration-500 ease-in-out"></div>)
                   : passStrength === 'medium' ?
-                    (<div className="bg-yellow-400 rounded-l-xl h-2 w-[73%] transition-width duration-500 ease-in-out"></div>)
+                    (<div className="bg-yellow rounded-l-xl h-2 w-[73%] transition-width duration-500 ease-in-out"></div>)
 
                     : passStrength === 'strong' ?
                       (<div className="bg-green-500 rounded-l-xl rounded-r-xl h-2 w-[100%] transition-width duration-500 ease-in-out"></div>)
@@ -390,11 +399,11 @@ const SignUp = () => {
       </div>
       <p className="text-darkGray text-sm absolute bottom-4 max-lg:relative max-lg:bottom-0 max-lg:my-10">
         By signing up, you agree to our{" "}
-        <span className="text-blue hover:text-hoverBlue cursor-pointer">
+        <span onClick={() => navigate('/terms&condition')} className="text-blue hover:text-hoverBlue cursor-pointer">
           Terms of Use
         </span>{" "}
         and{" "}
-        <span className="text-blue hover:text-hoverBlue cursor-pointer">
+        <span onClick={() => navigate('/policy')} className="text-blue hover:text-hoverBlue cursor-pointer">
           Privacy Policy
         </span>
       </p>

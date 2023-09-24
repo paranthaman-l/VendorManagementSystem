@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAdmin, logout } from '../../slices/adminSlice'
 import { BsPerson } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom'
+import profile from '../../assets/imgs/paranthaman.jpg'
 // eslint-disable-next-line react/prop-types
 const DashboardNavbar = ({ setShowSidebar, showSidebar }) => {
     const admin = useSelector(getAdmin);
@@ -16,7 +17,7 @@ const DashboardNavbar = ({ setShowSidebar, showSidebar }) => {
         dispatch(logout());
     }
     return (
-        <div className={`h-20  ${!showSidebar ? "pl-0" : "pl-28"}  flex justify-between items-center w-full bg-white fixed top-0 left-0 shadow-sm`}>
+        <div className={`h-20  ${!showSidebar ? "pl-0" : "pl-28"}  flex justify-between items-center w-full bg-white fixed top-0 left-0 shadow-sm z-10`}>
             <div className="flex font-poppins justify-evenly items-center w-[40%]">
                 <div onClick={() => setShowSidebar(!showSidebar)} className='bg-gray1 flex justify-center items-center cursor-pointer  h-11 w-11 rounded-sm'><BiMenuAltLeft className='text-2xl' /></div>
                 <div className="bg-gray1 min-w-[445px] h-11 rounded-sm relative p-2">
@@ -33,7 +34,7 @@ const DashboardNavbar = ({ setShowSidebar, showSidebar }) => {
 
                 </div>
                 <div className="pl-2 flex justify-center font-nutnitoSans items-center group">
-                    <img className='cursor-pointer rounded-full' src="https://admin.pixelstrap.com/cion/assets/images/dashboard/profile.png" alt="" />
+                    <img className='cursor-pointer rounded-full w-10 h-10' src={profile} alt="" />
                     <div className="flex flex-col mx-2 font-poppins justify-center">
                         <p className='cursor-pointer'>{admin ? admin.name : "Admin"}</p>
                         <div className="relative">

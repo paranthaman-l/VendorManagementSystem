@@ -15,9 +15,7 @@ const Vendor = () => {
   }
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-
   }, [])
-
   return (
     <div className="flex flex-col">
       {showAddVendor && <AddVendor setShowAddVendor={setShowAddVendor} addRef={addRef} showAddVendor={showAddVendor} />}

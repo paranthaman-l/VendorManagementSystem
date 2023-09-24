@@ -33,10 +33,10 @@ const AddOrg = ({ addRef, showAddOrg, setShowAddOrg }) => {
                             type="text"
                             className={` border-gray focus:border-blue focus:placeholder:text-[#9ca3af]  ${vendorError.firstName && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray h-[50px] px-[20px] py-[10px] text-lg max-w-[190px] rounded-l-lg outline-none border-l-[2.0px] border-t-[2.0px] border-b-[2.0px] border-r-[1.0px] `}
                             placeholder="First Name"
-                            name="firstName"
-                            id="firstName"
+                            name="founderName"
+                            id="founderName"
                             onChange={handleChange}
-                            value={org.firstName}
+                            value={org.founderName}
                         />
                         <input
                             type="text"
@@ -51,11 +51,11 @@ const AddOrg = ({ addRef, showAddOrg, setShowAddOrg }) => {
                     <input
                         type="text"
                         className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af]  ${vendorError.companyName && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] `}
-                        placeholder="Company Name"
-                        name="companyName"
-                        id="companyName"
+                        placeholder="Organization Name"
+                        name="organizationName"
+                        id="organizationName"
                         onChange={handleChange}
-                        value={org.companyName}
+                        value={org.organizationName}
                     />
                     {/* <div className="relative">
                         <select name='category' onChange={handleChange} className={`appearance-none border-gray focus:border-blue focus:placeholder-text-[#9ca3af] ${vendorError.email && "border-inputErrorRed text-inputErrorRed placeholder-text-inputErrorRed"} text-darkGray m-3 h-12 px-4 py-2 text-lg min-w-[380px] rounded-lg outline-none border-2`}>
@@ -91,13 +91,13 @@ const AddOrg = ({ addRef, showAddOrg, setShowAddOrg }) => {
                         value={org.contact}
                     />
                     <input
-                        type="service"
+                        type="text"
                         className={`border-gray focus:border-blue focus:placeholder:text-[#9ca3af]  ${vendorError.service && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray m-3 h-[50px] px-[20px] py-[10px] text-lg min-w-[380px] rounded-lg outline-none border-[2.0px] `}
-                        placeholder="Service"
-                        name="service"
-                        id="service"
+                        placeholder="Organization"
+                        name="organization"
+                        id="organization"
                         onChange={handleChange}
-                        value={org.service}
+                        value={org.organization}
                     />
                     <input
                         className="bg-blue m-4 text-white h-10 min-w-[100px]  px-5 py-2 cursor-pointer rounded-md hover:bg-hoverBlue"

@@ -214,12 +214,12 @@ const Login = () => {
               New ?{" "}
               <span
                 onClick={() => navigate("/signUp")}
-                className="text-blue hover:underline  hover:text-hoverBlue font-semibold cursor-pointer"
+                className="text-blue underline hover:no-underline  hover:text-hoverBlue font-semibold cursor-pointer"
               >
-                SignUp
+                Sign Up
               </span>
             </p>
-            <p onClick={() => navigate('/forgetPwd')} className="text-blue hover:underline hover:text-hoverBlue cursor-pointer">
+            <p onClick={() => navigate('/forgetPwd')} className="text-blue underline hover:no-underline hover:text-hoverBlue cursor-pointer">
               forget your password?
             </p>
           </div>
@@ -227,11 +227,11 @@ const Login = () => {
       </div>
       <p className="text-darkGray text-sm absolute bottom-16 max-md:relative max-md:bottom-0">
         By signing up, you agree to our{" "}
-        <span className="text-blue hover:text-hoverBlue cursor-pointer">
+        <span onClick={()=>navigate('/terms&condition')} className="text-blue hover:text-hoverBlue cursor-pointer">
           Terms of Use
         </span>{" "}
         and{" "}
-        <span className="text-blue hover:text-hoverBlue cursor-pointer">
+        <span onClick={()=>navigate('/policy')} className="text-blue hover:text-hoverBlue cursor-pointer">
           Privacy Policy
         </span>
       </p>
