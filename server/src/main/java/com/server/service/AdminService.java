@@ -2,7 +2,6 @@ package com.server.service;
 
 import java.util.UUID;
 import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +34,8 @@ public class AdminService {
         } else {
             apiResponse.setError("Already registered Email Id");
         }
+        // apiResponse.setStatus();
+        // HttpStatusCode
         return apiResponse;
     }
 

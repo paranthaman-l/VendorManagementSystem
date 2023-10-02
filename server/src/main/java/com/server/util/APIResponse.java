@@ -10,8 +10,6 @@ public class APIResponse {
 
     public APIResponse() {
         this.status = HttpStatus.OK.value();
-        // this.data = data;
-        // this.error = error;
     }
 
     public Integer getStatus() {

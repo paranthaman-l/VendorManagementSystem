@@ -86,7 +86,7 @@ const Footer = () => {
         { title: "GDPR Ready", value: "/" },
         { title: "Privacy", value: "/policy" },
         { title: "Terms", value: "/terms&condition" },
-        { title: "Admin", value: "/admin/dashboard" },
+        { title: "Admin", value: "/admin/login" },
         { title: "Accessibility", value: "/" },
         { title: "Cookies Policy", value: "/" },
         { title: "Cookies Settings", value: "/" },
@@ -101,8 +101,8 @@ const Footer = () => {
                 (currentPath !== '/getDetails')
                 &&
                 <div className="flex flex-col bg-[#f9f9fb]">
-                    <div className='flex justify-between items-start mx-14 mt-10 border-b-[1.5px] border-opacity-75 border-gray '>
-                        <div className="flex flex-col min-h-[720px]">
+                    <div className='flex justify-between items-start mx-14 mt-10 border-b-[1.5px] border-opacity-75 border-gray lg-max:flex-col'>
+                        <div className="flex flex-col min-h-[720px] lg-max:min-h-max">
                             <p className='text-blue font-poppins font-semibold text-3xl'>Delta</p>
                             <p className='text-darkGray text-opacity-70 font-semibold my-2'>All Rights Reserved © Delta.com</p>
                             <div className="flex justify-start items-center mt-10">
@@ -116,7 +116,7 @@ const Footer = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="flex justify-between w-[65%]">
+                        <div className="flex justify-between w-[65%] lg-max:w-full">
                             {footerContent.map((content, i) => {
                                 return (
                                     <div key={i} className="">

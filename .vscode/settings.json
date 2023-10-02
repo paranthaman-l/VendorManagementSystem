@@ -1,7 +1,10 @@
 {
     "cSpell.words": [
         "alata",
+        "deskless",
         "imgs",
+        "PARANTHAMAN",
         "signup"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }

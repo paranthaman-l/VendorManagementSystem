@@ -33,7 +33,7 @@ const AdminDashboard = () => {
           <div className="flex group justify-between items-center h-40 w-96 font-nutnitoSans shadow-md hover:-translate-y-2 transition-all  delay-100 ease-in-out rounded-xl bg-white">
             <div className="">
               <p className="text-xl font-bold  mb-4 mx-4 flex justify-start items-center relative pl-14"> <span className="absolute group-hover:scale-110 group-hover:animate-spin  bg-[#000000] bg-opacity-40 h-10 w-10 rounded-full flex justify-center items-center left-3"><FaFileContract className="text-2xl group-hover:animate-shake-slight" /></span>Total Contracts</p>
-              <p className="text-4xl  text-start mx-8">120000</p>
+              <p className="text-4xl  text-start mx-8">0</p>
             </div>
           </div>
           <div className="flex group justify-between items-center h-40 w-96 font-nutnitoSans shadow-md hover:-translate-y-2 transition-all  delay-100 ease-in-out rounded-xl bg-white">

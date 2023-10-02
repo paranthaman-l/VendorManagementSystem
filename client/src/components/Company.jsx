@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import helpImage from '../assets/imgs/helpImage.svg';
 import aboutImage from '../assets/imgs/aboutImage.svg';
 import atImage from '../assets/imgs/atImage.svg';

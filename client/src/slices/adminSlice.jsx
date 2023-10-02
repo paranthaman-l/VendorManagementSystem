@@ -9,6 +9,7 @@ const initialState = {
     newVendors: [],
     newOrganizations: [],
     contracts: [],
+    contacts:[]
 };
 export const AdminSlice = createSlice({
     name: 'admin',

@@ -31,14 +31,14 @@ const Landing = () => {
     // eslint-disable-next-line
   }, []);
   return (
-    <div className='mt-20 min-h-full flex flex-col items-center'>
+    <div className='mt-20 min-h-full flex flex-col items-center lg-max:w-full'>
       {/* First div */}
-      <div className="flex justify-between px-20 mt-10 w-full items-center">
-        <div className="w-7/12">
+      <div className="flex justify-between px-20 mt-10 w-full items-center lg-max:px-3 lg-max:flex-col lg-max:justify-center ">
+        <div className="w-7/12 lg-max:w-full lg-max:px-5">
           <p className='text-5xl font-poppins font-extrabold'>The One Solution for Managing Your Vendors</p>
           <p className='font-inter mt-7 tracking-wider'>Manage, train, and communicate with your non-desk workforce, all on Delta's easy-to-use app</p>
           <div className="flex justify-start w-[90%]  items-center mt-10 ">
-            <button className='flex justify-center mr-5 group items-center bg-blue px-4 py-2 min-w-[180px] min-h-[50px] text-white font-inter font-bold rounded-3xl'>Get Started <BsArrowRight className='ml-4 group-hover:translate-x-2 duration-300 text-xl' /></button>
+            <button onClick={()=>navigate('/signup')} className='flex justify-center mr-5 group items-center bg-blue px-4 py-2 min-w-[180px] min-h-[50px] text-white font-inter font-bold rounded-3xl'>Get Started <BsArrowRight className='ml-4 group-hover:translate-x-2 duration-300 text-xl' /></button>
             <button className='min-w-[210px] min-h-[50px] border-[3px] border-blue text-blue hover:text-hoverBlue flex justify-between items-center pl-5 pr-1 rounded-3xl font-bold font-inter'>What is Delta? <BsFillPlayCircleFill className='text-4xl text-blue' /> </button>
           </div>
         </div>
@@ -168,11 +168,11 @@ const Landing = () => {
       </div>
       {/* End of the 3rd Div */}
       {/* Start of the 4 th div */}
-      <div className="flex justify-around px-10 mt-20">
+      <div className="flex justify-around px-10 mt-20 lg-max:flex-col-reverse lg-max:w-full">
         <img src={homePage4rdDivImage} alt="" />
         <div className="w-full mt-20 ml-20">
-          <p className='font-poppins text-4xl font-bold w-9/12 my-3'>One-Stop Shop for All Business Vendors</p>
-          <p className='font-poppins text-xl tracking-wider'>Everything your business needs to manage time efficiently and get things done quickly & paper free</p>
+          <p className='font-poppins text-4xl font-bold w-9/12  my-3'>One-Stop Shop for All Business Vendors</p>
+          <p className='font-poppins text-xl tracking-wider lg-max:w-10/12'>Everything your business needs to manage time efficiently and get things done quickly & paper free</p>
           <div className="flex items-center mt-10">
             <button className='text-blue mx-10 flex justify-center items-center group px-3 py-1 rounded-2xl bg-[#eaf5ff] hover:bg-hoverBlue hover:text-white'>
               Contracts<BsArrowRight className='ml-2 group-hover:translate-x-2 duration-300 text-xl' />
@@ -185,11 +185,11 @@ const Landing = () => {
       </div>
       {/* End of the 4 th div */}
       {/* Start of the 5 th div */}
-      <div className="flex justify-around px-10 mt-20">
-        <div className="w-full mt-20 ml-20">
+      <div className="flex justify-around px-10 mt-20 lg-max:flex-col lg-max:w-full">
+        <div className="w-full mt-20 ml-20 lg-max:w-full">
           <p className='font-poppins text-4xl font-bold w-9/12 my-3'>Effortlessly Communicate With Your Deskless Workforce</p>
-          <p className='font-poppins text-xl tracking-wider'>Everything you need to simplify work communication and keep everyone on the same page</p>
-          <div className="flex items-center mt-10">
+          <p className='font-poppins text-xl lg-max:w-10/12 tracking-wider'>Everything you need to simplify work communication and keep everyone on the same page</p>
+          <div className="flex items-center mt-10 lg-max:justify-end">
             <button className='text-[#d8a305]  bg-yellow mx-10 flex justify-center items-center group px-3 py-1 rounded-2xl   '>
               Chat<BsArrowRight className='ml-2 group-hover:translate-x-2 duration-300 text-xl' />
             </button>
@@ -201,11 +201,11 @@ const Landing = () => {
             </button>
           </div>
         </div>
-        <img src={homePage5rdDivImage} alt="" />
+        <img className='h-[500px] w-[500px] object-contain lg-max:w-full lg-max:h-[90%]' src={homePage5rdDivImage} alt="" />
       </div>
       {/* End of the 5 th div */}
       {/* Start of 6th div */}
-      <div className="flex justify-around px-10 mt-20">
+      <div className="flex justify-around px-10 mt-20 lg-max:flex-col-reverse lg-max:w-full">
         <img src={homePage6rdDivImage} alt="" />
         <div className="w-full mt-20 ml-20">
           <p className='font-poppins text-4xl font-bold w-9/12 my-3'>People Management Made Easy</p>
