@@ -5,6 +5,9 @@ import java.util.Date;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -49,6 +52,7 @@ public class ServiceModel {
 
     private String createdBy;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "vid")
     private Vendor vendor;

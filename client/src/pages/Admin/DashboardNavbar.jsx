@@ -18,7 +18,7 @@ const DashboardNavbar = ({ setShowSidebar, showSidebar }) => {
         navigate('/admin/login');
     }
     return (
-        <div className={`h-20  ${!showSidebar ? "pl-0" : "pl-28"}  flex justify-between items-center w-full bg-white fixed top-0 left-0 shadow-sm z-10`}>
+        <div className={`h-20  ${!showSidebar ? "pl-0" : "pl-28"}   flex justify-between items-center w-full bg-white fixed top-0 left-0 shadow-sm z-30`}>
             <div className="flex font-poppins justify-evenly items-center w-[40%]">
                 <div onClick={() => setShowSidebar(!showSidebar)} className='bg-gray1 flex justify-center items-center cursor-pointer  h-11 w-11 rounded-sm'><BiMenuAltLeft className='text-2xl' /></div>
                 <div className="bg-gray1 min-w-[445px] h-11 rounded-sm relative p-2">

@@ -1,6 +1,7 @@
 package com.paranthaman.vendormanagementsystem.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +33,15 @@ public class ServiceController {
         return ResponseEntity.ok().body(services);
     }
 
+    @GetMapping("/getAllByIds")
+    public ResponseEntity<?> getAllServicesByIds(@RequestParam List<String> ids) {
+        ArrayList<ServiceModel> services = serviceService.getAllServicesByIds(ids);
+        return ResponseEntity.ok().body(services);
+    }
+
     @PostMapping("/postService")
-    public ResponseEntity<?> addService(@RequestBody ServiceModel serviceModel) {
-        String res = serviceService.addService(serviceModel);
+    public ResponseEntity<?> addService(@RequestBody ServiceModel serviceModel,@RequestParam String vid) {
+        String res = serviceService.addService(serviceModel,vid);
         return ResponseEntity.ok().body(res);
     }
 

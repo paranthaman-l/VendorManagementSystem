@@ -29,6 +29,7 @@ const Navbar = () => {
     "/login",
     "/signUp",
     "/forgetPwd",
+    "/admin/*",
     "/admin/login",
     "/admin/dashboard",
     "/admin/vendors",
@@ -44,7 +45,10 @@ const Navbar = () => {
     "/vendor/riskManagement",
     "/vendor/certifications",
     "/vendor/profile",
+    "/vendor/*",
+    "/organization/*",
     "/getDetails"
+    
   ]
   return (
     <>

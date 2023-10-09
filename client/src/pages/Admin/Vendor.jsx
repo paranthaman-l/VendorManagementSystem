@@ -18,7 +18,7 @@ const Vendor = () => {
   }, [])
   return (
     <div className="flex flex-col">
-      {showAddVendor && <AddVendor setShowAddVendor={setShowAddVendor} addRef={addRef} showAddVendor={showAddVendor} />}
+  {showAddVendor && <AddVendor setShowAddVendor={setShowAddVendor} addRef={addRef} showAddVendor={showAddVendor} />}
       <DashboardNavbar setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
       <div className="flex flex-col bg-bgGray min-h-screen">
         <Sidebar showSidebar={showSidebar} />

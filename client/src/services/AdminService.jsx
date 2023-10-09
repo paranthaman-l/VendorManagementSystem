@@ -20,10 +20,12 @@ class AdminService {
         return adminApi.put('/updateBanner', formData);
     }
 
-    approveVendor = (vid) => adminApi.put('/approveVendor', { params: { vid: vid } });
+    approveVendor = (vid) => adminApi.put('/approveVendor?vid='+vid);
 
     approveOrganization = (oid) => adminApi.put('/approveOrganization', { params: { oid } });
 
     getCount = () => adminApi.get('/getCount');
+
+    getVendors = (verified) => adminApi.get('/getVendors', { params: { verified } });
 }
 export default new AdminService();

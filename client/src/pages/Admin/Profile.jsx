@@ -136,7 +136,6 @@ const Profile = () => {
                             <h4 className="text-xl text-gray-900 font-bold">Activity log</h4>
                             <div className="relative px-4">
                                 <div className="absolute h-full border border-dashed border-opacity-20 border-secondary"></div>
-
                                 <div className="flex items-center w-full my-6 -ml-1.5">
                                     <div className="w-1/12 z-10">
                                         <div className="w-3.5 h-3.5 bg-blue rounded-full"></div>
@@ -146,7 +145,6 @@ const Profile = () => {
                                         <p className="text-xs text-gray-500">3 min ago</p>
                                     </div>
                                 </div>
-
                                 <div className="flex items-center w-full my-6 -ml-1.5">
                                     <div className="w-1/12 z-10">
                                         <div className="w-3.5 h-3.5 bg-blue rounded-full"></div>

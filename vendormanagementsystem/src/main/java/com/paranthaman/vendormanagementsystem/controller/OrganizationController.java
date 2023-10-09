@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.paranthaman.vendormanagementsystem.constant.Api;
-import com.paranthaman.vendormanagementsystem.dto.response.AdminDTO;
 import com.paranthaman.vendormanagementsystem.model.Organization;
 import com.paranthaman.vendormanagementsystem.service.OrganizationService;
 

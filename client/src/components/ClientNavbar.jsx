@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import delta from '../assets/imgs/delta.png';
@@ -45,7 +46,7 @@ const ClientNavbar = () => {
                 setProfile(res.data.profile);
                 setLoading(false);
             }).catch(() => {
-                toast.error("Something went wrong!");
+                // toast.error("Something went wrong!");
                 setLoading(false);
             })
         }
@@ -107,20 +108,20 @@ const ClientNavbar = () => {
                             unmount: { y: 25 },
                         }}>
                             <MenuHandler>
-                                {loading ? 
+                                {loading ?
                                     <div className="">
-                                        <Skeleton className="w-[200px] h-10"/>
+                                        <Skeleton className="w-[200px] h-10" />
                                     </div>
                                     :
                                     <div className="flex  w-[250px] justify-center border-l-[1px] text-gray border-opacity-50  items-center">
-                                        <img className="h-10 w-10 object-cover mx-2 rounded-full" src={`data:image/jpeg;base64,` + profile} alt="" />
+                                        <img className="h-10 w-10 object-cover mx-2 rounded-full" src={vendor ? vendor?.profile : ""} alt="" />
                                         <p className="flex justify-center items-center  uppercase text-blue hover:text-hoverBlue cursor-pointer line-clamp-1">{vendor ? vendor?.user?.name : "Vendor Name"}<img className="" src={down} alt="" /></p>
                                     </div>
                                 }
                             </MenuHandler>
                             <MenuList className="flex absolute w-[250px] p-2 right-0 top-14 flex-col justify-center bg-white shadow-xl rounded-xl">
                                 <MenuItem className="flex justify-center  p-1 bg-lightSkyBlue2 rounded-xl  items-center">
-                                    <img className="h-10 w-10 object-cover mx-1 rounded-full" src={`data:image/jpeg;base64,` + profile} alt="" />
+                                    <img className="h-10 w-10 object-cover mx-1 rounded-full" src={vendor ? vendor?.profile : ""} alt="" />
                                     <p className="flex justify-center p-1 flex-col items-start line-clamp-1 uppercase text-black font-semibold  cursor-pointer"><span className="line-clamp-1">{vendor ? vendor?.user?.name : "Vendor Name"}</span><span className="text-sm font-normal font-inter">{vendor ? vendor?.user?.role : "ROLE"}</span></p>
                                 </MenuItem>
                                 <MenuItem className="flex items-center hover:bg-white border-t-[1px] border-gray border-opacity-50 mt-2">

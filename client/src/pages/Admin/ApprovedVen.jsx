@@ -1,127 +1,84 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { getVendors, removeVendor } from '../../slices/adminSlice'
-import { Card, Typography } from '@material-tailwind/react';
-import deleteIcon from '../../assets/imgs/delete.svg'
+import { useEffect, useState } from 'react';
+import AdminService from '../../services/AdminService';
+import paranthaman from '../../assets/imgs/paranthaman.jpg'
 const ApprovedVen = () => {
-  const vendors = useSelector(getVendors);
-  const dispatch = useDispatch();
-
-  const TABLE_HEAD = ["Company Name", "Vendor Name", "Email", "Service", ""];
-  const TABLE_ROWS = [
-    {
-      companyName: "Delta",
-      vendorName: "PARANTHAMAN L",
-      email: "paranthamanl2004@gmail.com",
-      service: "VMS",
-    },
-  ];
+  const [approvedVendors, setApprovedVendors] = useState([])
+  const getPendingVendors = async () => {
+    await AdminService.getVendors(true).then((response) => {
+      setApprovedVendors(response.data);
+      console.log(response);
+    }).catch((err) => { console.log(err); })
+  }
+  useEffect(() => {
+    getPendingVendors();
+  }, [])
 
   return (
-    // <div className='flex flex-col justify-center items-center mt-10'>
-    //   {vendors?.map((vendor, i) => {
-    //     return (
-    //       <div key={i} className=" group w-[95%] min-h-[150px] my-5 rounded-2xl  bg-white mr-10">
-    //         <p className='px-5 py-3 text-3xl font-poppins font-semibold'>{vendor.companyName}</p>
-    //         <div className="flex justify-between items-center">
-    //           <p className='ml-6 w-[35%]'>Vendor Name :<span className='text-xl font-alata'> {vendor.firstName + " " + vendor.lastName}</span> </p>
-    //           <div className="flex w-[40%] flex-col">
-    //             <p className='ml-6'>email :<span className='font-alata text-lg'> {vendor.email}</span> </p>
-    //             <p className='ml-6'>Contact :<span className='font-alata text-lg'> {vendor.contact}</span> </p>
-    //           </div>
-    //           <div className="flex group-hover:opacity-100 opacity-0 w-[25%] flex-col justify-center items-center">
-    //             <button className='bg-blue text-white px-4 py-2 min-w-[100px] mb-1 rounded-2xl'>View</button>
-    //             <button onClick={() => dispatch(removeVendor(i))} className='bg-[#ff5e5b] text-white px-4 py-2 min-w-[100px] mt-1 rounded-2xl'>Delete</button>
-    //           </div>
-    //         </div>
-    //         <div className="my-3 mx-6">
-    //           <p>Service Category : <span className='text-xl'> {vendor.category}</span></p>
-    //         </div>
-    //         <div className="my-3 mx-6">
-    //           <p>Service : <span className='text-xl'> {vendor.service}</span></p>
-    //         </div>
-    //       </div>
-    //     )
-    //   })}
-    // </div>
-
-    <Card className="h-full w-full overflow-scroll mt-10">
-      <table className="w-full min-w-max table-auto text-left">
+    <div className="overflow-x-auto">
+      <table className="table">
         <thead>
           <tr>
-            {TABLE_HEAD.map((head) => (
-              <th
-                key={head}
-                className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-              >
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
-                  {head}
-                </Typography>
-              </th>
-            ))}
+            <th>
+              <label htmlFor='allCheckBox'>
+                <input type="checkbox" className="checkbox" />
+              </label>
+            </th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Location</th>
+            <th>Performance</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          {vendors?.map((vendor, index) => {
-            const isLast = index === vendors?.length - 1;
-            const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+          {approvedVendors?.map((vendor, index) => {
             return (
-              <tr key={name}>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {vendor?.companyName}
-                  </Typography>
+              <tr key={index}>
+                <th>
+                  <label >
+                    <input id='allCheckBox' type="checkbox" className="checkbox" />
+                  </label>
+                </th>
+                <td>
+                  <div className="flex items-center space-x-3">
+                    <div className="avatar">
+                      <div className="mask mask-squircle w-12 h-12">
+                        <img src={vendor?.profile || paranthaman} alt="Avatar Tailwind CSS Component" />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="font-bold">{vendor?.user?.name}</div>
+                      <div className="text-sm opacity-50">{vendor?.companyName||"Company Name"}</div>
+                    </div>
+                  </div>
                 </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {vendor?.vendorName || vendor.firstName}
-                  </Typography>
+                <td>
+                  {vendor?.user?.email}
+                  <br />
+                  <span className="badge badge-ghost badge-sm">{vendor?.contact || "+91 9626474259"}</span>
                 </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {vendor?.email}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {vendor?.service}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-medium"
-                  >
-                    <p className='flex justify-center'>Edit <span onClick={()=>dispatch(removeVendor(index))} className='mx-3'><img className='cursor-pointer' src={deleteIcon} alt='' /></span></p>
-                  </Typography>
-                </td>
+                <td>{vendor?.location || "Location"}</td>
+                <td>{vendor?.performance||"Normal"}</td>
+                <th>
+                  <button className="btn btn-ghost btn-xs">Details</button>
+                </th>
               </tr>
-            );
+            )
           })}
         </tbody>
+        <tfoot>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Location</th>
+            <th>Performance</th>
+            <th></th>
+          </tr>
+        </tfoot>
       </table>
-    </Card>
+    </div>
   )
 }
 
-export default ApprovedVen
+export default ApprovedVen;

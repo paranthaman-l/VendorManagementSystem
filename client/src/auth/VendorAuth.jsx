@@ -25,7 +25,7 @@ const VendorAuth = () => {
                 console.log(res.data);
                 navigate(path);
               }).catch(()=>{
-                toast.error("Something went wrong!");
+                // toast.error("Something went wrong!");
               })
             }
           }

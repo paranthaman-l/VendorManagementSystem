@@ -1,13 +1,15 @@
 package com.paranthaman.vendormanagementsystem.model;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -29,22 +31,36 @@ public class Vendor {
 	private String vid;
 	private boolean isVerified;
 
-	@Lob
-	@Column(name = "banner", columnDefinition = "LONGBLOB")
-	private byte[] banner;
+	private String banner;
+	
+	private String profile;
 
-	@Lob
-	@Column(name = "profile", columnDefinition = "LONGBLOB")
-	private byte[] profile;
+	private String companyName;
 
+	private String location;
+
+	private String address;
+
+	private String contact;
+
+	private List<String> languages = new ArrayList<>();
+	
+	private String performance;
+
+	@Column(length = 300)
+	private String about;
+
+	@JsonManagedReference
 	@OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
-	private List<ServiceModel> services;
-
+	private List<ServiceModel> services =  new ArrayList<>();
+	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
-	private List<ContractModel> contracts;
-
+	private List<ContractModel> contracts = new ArrayList<>();
+	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL)
-	private List<ReviewModel> reviews;
+	private List<ReviewModel> reviews = new ArrayList<>();
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "uid", referencedColumnName = "uid")

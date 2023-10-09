@@ -55,8 +55,8 @@ function App() {
   return (
     <div className="">
       <ScrollToTop />
-      {/* <Navbar />
-      <ClientNavbar /> */}
+      <Navbar />
+      <ClientNavbar />
       <Routes >
         {/* Default */}
         <Route index element={<Landing />} />

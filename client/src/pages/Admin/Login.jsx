@@ -36,14 +36,12 @@ const Login = () => {
         if (Object.keys(error).length === 0) {
             setLoading(true);
             await AuthService.Login(login).then((response) => {
-                // const response = res.data;
-                // toast.success("Welcome Admin : " + response.data.name);
-                // dispatch(setAdmin(response.data))
                 setTimeout(async () => {
                     setLoading(false);
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('role', response.data.role);
                     if (response.data.role === "ADMIN") {
+                        console.log("Hii");
                         await AdminService.getAdminData(response.data.uid).then((res) => {
                             dispatch(setAdmin(res.data))
                             navigate('/admin/dashboard');
@@ -55,7 +53,7 @@ const Login = () => {
                 // toast.error(response.error);
                 setLoading(false);
             }).catch((err) => {
-                console.log(err);
+                // console.log(err);
             })
             setLoading(false);
         }

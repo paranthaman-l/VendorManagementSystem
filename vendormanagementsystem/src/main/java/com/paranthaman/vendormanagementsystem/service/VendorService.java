@@ -1,5 +1,8 @@
 package com.paranthaman.vendormanagementsystem.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.paranthaman.vendormanagementsystem.dto.request.AddService;
@@ -25,31 +28,38 @@ public class VendorService {
     }
 
     public String updateBanner(UpdateImageDTO updateImageDTO) throws IOException {
-        try{
+        try {
             Vendor vendor = vendorRepository.findById(updateImageDTO.getId()).get();
-            vendor.setBanner(updateImageDTO.getFile().getBytes());
+            vendor.setBanner(updateImageDTO.getFile());
             vendorRepository.save(vendor);
             return "Update Profile Successfully";
-        }catch(Exception e){
+        } catch (Exception e) {
             return "Something went wrong!";
         }
     }
 
     public String updateProfile(UpdateImageDTO updateImageDTO) throws IOException {
-        try{
+        try {
             Vendor vendor = vendorRepository.findById(updateImageDTO.getId()).get();
-            vendor.setProfile(updateImageDTO.getFile().getBytes());
+            vendor.setProfile(updateImageDTO.getFile());
             vendorRepository.save(vendor);
             return "Update Profile Successfully";
-        }catch(Exception e){
+        } catch (Exception e) {
             return "Something went wrong!";
         }
     }
 
     public String addService(AddService addService) {
-        ServiceModel service = serviceRepository.findById(addService.getSid()).get();
-        Vendor vendor = vendorRepository.findById(addService.getVid()).get();
-        vendor.getServices().add(service);
-        return "Service Added Successfully";
+        try {
+            ServiceModel service = serviceRepository.findById(addService.getSid()).get();
+            Vendor vendor = vendorRepository.findById(addService.getVid()).get();
+            List<ServiceModel> services = vendor.getServices();
+            services.add(service);
+            vendor.setServices(services);
+            vendorRepository.save(vendor);
+            return "Service Added Successfully";
+        } catch (Exception e) {
+            return "Something went wrong!";
+        }
     }
 }

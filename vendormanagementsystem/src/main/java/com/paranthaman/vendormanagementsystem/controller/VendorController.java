@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,12 +40,12 @@ public class VendorController {
     }
 
     @PutMapping("/updateBanner")
-    public String updateBanner(@ModelAttribute UpdateImageDTO updateImageDTO) throws IOException {
+    public String updateBanner(@RequestBody UpdateImageDTO updateImageDTO) throws IOException {
         return vendorService.updateBanner(updateImageDTO);
     }
 
     @PutMapping("/updateProfile")
-    public String updateProfile(@ModelAttribute UpdateImageDTO updateImageDTO) throws IOException {
+    public String updateProfile(@RequestBody UpdateImageDTO updateImageDTO) throws IOException {
         return vendorService.updateProfile(updateImageDTO);
     }
 

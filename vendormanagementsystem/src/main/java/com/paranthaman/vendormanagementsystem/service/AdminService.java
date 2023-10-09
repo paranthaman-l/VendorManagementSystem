@@ -65,7 +65,6 @@ public class AdminService {
 
     public String updateName(UpdateNameDTO updateNameDTO) {
         try {
-
             User user = userRepository.findById(updateNameDTO.getId()).get();
             user.setName(updateNameDTO.getName());
             userRepository.save(user);
@@ -77,9 +76,8 @@ public class AdminService {
 
     public String updateProfile(UpdateImageDTO updateImageDTO) throws IOException {
         try {
-
             Admin admin = adminRepository.findById(updateImageDTO.getId()).get();
-            admin.setProfile(updateImageDTO.getFile().getBytes());
+            admin.setProfile(updateImageDTO.getFile());
             adminRepository.save(admin);
             return "Update Profile Successfully";
         } catch (Exception e) {
@@ -90,9 +88,9 @@ public class AdminService {
     public String updateBanner(UpdateImageDTO updateImageDTO) throws IOException {
         try {
             Admin admin = adminRepository.findById(updateImageDTO.getId()).get();
-            admin.setBanner(updateImageDTO.getFile().getBytes());
+            admin.setBanner(updateImageDTO.getFile());
             adminRepository.save(admin);
-            return "Update Profile Successfully";
+            return "Update Banner Successfully";
         } catch (Exception e) {
             return "Something went wrong!";
         }

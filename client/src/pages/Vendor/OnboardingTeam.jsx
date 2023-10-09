@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Sidebar from './Sidebar'
 import group from '../../assets/imgs/group.png'
 import paranthaman from '../../assets/imgs/paranthaman.jpg'
@@ -11,10 +11,21 @@ import plusblack from '../../assets/imgs/plusblack.svg'
 import down from '../../assets/imgs/down.svg'
 import deleteIcon from '../../assets/imgs/delete.svg'
 import addEmployee from '../../assets/imgs/add-users.gif'
+import AddService from './AddService'
 const OnboardingTeam = () => {
-    const [isEmployee, setIsEmployee] = useState("employees")
+    const [isEmployee, setIsEmployee] = useState("employees");
+    const [showAddService,setShowAddService] = useState(false);
+    const addRef = useRef();
+    const handleClickOutside = () => {
+      if (addRef.current && !addRef.current.contains(event.target))
+      setShowAddService(false);
+    }
+    useEffect(() => {
+      document.addEventListener("mousedown", handleClickOutside);
+    }, [])
     return (
         <div className='mt-20 flex flex-col min-h-screen bg-lightGray2'>
+            {showAddService && <AddService addRef={addRef} setShowAddService={setShowAddService}/>}
             <Sidebar />
             <div className="ml-60 mt-5 flex flex-col">
                 <div className="flex justify-between px-10 mr-5 py-3 rounded-xl bg-white shadow-xl">
@@ -51,7 +62,7 @@ const OnboardingTeam = () => {
                                 <img className="mr-2" src={search} alt="" />
                             </div>
                             <button className='flex justify-center items-center bg-lightGray py-2 px-3 border-[1.5px] border-darkGray border-opacity-40 text-blue font-openSans hover:border-blue mx-2 rounded-2xl'>Export <img src={down} className='mx-2' alt="" /></button>
-                            <button className='flex justify-center items-center bg-blue hover:bg-hoverBlue py-[9px] px-3  text-white font-openSans hover:border-blue mx-2 rounded-2xl'><img src={plus} className='mx-2' alt="" />{isEmployee === 'employees' ? "Add Employee" : "Create Group"}</button>
+                            <button onClick={()=>setShowAddService(true)} className='flex justify-center items-center bg-blue hover:bg-hoverBlue py-[9px] px-3  text-white font-openSans hover:border-blue mx-2 rounded-2xl'><img src={plus} className='mx-2' alt="" />{isEmployee === 'employees' ? "Add Employee" : "Create Group"}</button>
                         </div>
                     </div>
                     {isEmployee === 'employees' ?

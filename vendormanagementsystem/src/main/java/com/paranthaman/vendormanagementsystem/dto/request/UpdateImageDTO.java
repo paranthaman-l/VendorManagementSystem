@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateImageDTO {
     private String id;
-    private MultipartFile file;
+    private String file;
 }

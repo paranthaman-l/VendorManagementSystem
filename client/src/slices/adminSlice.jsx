@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
+import { adminApi } from "../apis/axios";
 
 const initialState = {
     admin: null,

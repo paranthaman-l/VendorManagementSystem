@@ -7,12 +7,24 @@ import deleteIcon from '../../assets/imgs/delete.svg'
 import { Card, Typography } from '@material-tailwind/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getVendors, removeVendor } from '../../slices/adminSlice'
+import { useEffect, useRef, useState } from 'react'
+import AddService from './AddService'
 const Services = () => {
     const TABLE_HEAD = ["Service Name", "Service Type", "Service Owner", "Service Status", "Service Price", "Service Duration", "Service Contacts"];
     const vendors = useSelector(getVendors)
     const dispatch = useDispatch()
+    const [showAddService,setShowAddService] = useState(false);
+    const addRef = useRef();
+    const handleClickOutside = () => {
+      if (addRef.current && !addRef.current.contains(event.target))
+      setShowAddService(false);
+    }
+    useEffect(() => {
+      document.addEventListener("mousedown", handleClickOutside);
+    }, [])
     return (
         <div className='mt-20 flex flex-col min-h-screen bg-lightGray2'>
+            {showAddService && <AddService addRef={addRef} setShowAddService={setShowAddService}/>}
             <Sidebar />
             <div className="ml-60 mt-5 flex flex-col">
                 <div className="flex justify-between px-10 mr-5 py-3 rounded-xl bg-white shadow-xl">
@@ -35,7 +47,7 @@ const Services = () => {
                                 <input className="px-2 w-full ml-3 py-2 outline-none bg-transparent" type="text" placeholder="Search" />
                                 <img className="mr-2" src={search} alt="" />
                             </div>
-                            <button className='flex max-w-fit justify-center items-center bg-blue hover:bg-hoverBlue py-[9px] px-3  text-white font-openSans hover:border-blue mx-auto rounded-2xl'><img src={plus} className='mx-2' alt="" />Add Service</button>
+                            <button  onClick={()=>setShowAddService(true)} className='flex max-w-fit justify-center items-center bg-blue hover:bg-hoverBlue py-[9px] px-3  text-white font-openSans hover:border-blue mx-auto rounded-2xl'><img src={plus} className='mx-2' alt="" />Add Service</button>
                         </div>
                     </div>
                     <Card className="h-full w-full overflow-scroll mt-10">

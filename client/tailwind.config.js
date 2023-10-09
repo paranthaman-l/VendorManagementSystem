@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 // eslint-disable-next-line no-undef
 const withMT = require("@material-tailwind/react/utils/withMT");
@@ -34,5 +35,9 @@ export default withMT({
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes:false,
+    darkTheme:false,
+  }
 });

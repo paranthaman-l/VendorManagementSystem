@@ -61,12 +61,12 @@ public class AdminController {
     }
     
     @PutMapping("/updateProfile")
-    public ResponseEntity<?> updateProfile(@ModelAttribute UpdateImageDTO updateImageDTO ) throws IOException{
+    public ResponseEntity<?> updateProfile(@RequestBody UpdateImageDTO updateImageDTO ) throws IOException{
         return ResponseEntity.ok().body(adminService.updateProfile(updateImageDTO));
     }
 
     @PutMapping("/updateBanner")
-    public String updateBanner(@ModelAttribute UpdateImageDTO updateImageDTO ) throws IOException{
+    public String updateBanner(@RequestBody UpdateImageDTO updateImageDTO ) throws IOException{
         return adminService.updateBanner(updateImageDTO);
     }
     

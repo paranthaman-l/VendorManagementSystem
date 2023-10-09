@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
+import { vendorApi } from "../apis/axios";
 
 const initialState = {
     vendor: {},
@@ -18,7 +19,8 @@ export const VendorSlice = createSlice({
             newData = {...newData,...oldData}
             state.vendor = newData;
         },
-        logout: (state, action) => {
+        logout: (state) => {
+            vendorApi.interceptors.request.clear();
             state.vendor = null
         },
         addService(state, action) {

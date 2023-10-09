@@ -23,13 +23,9 @@ public class Admin {
 	@Id
 	private String aid;
 
-	@Lob
-	@Column(name = "banner", columnDefinition = "LONGBLOB")
-	private byte[] banner;
-
-	@Lob
-	@Column(name = "profile", columnDefinition = "LONGBLOB")
-	private byte[] profile;
+	private String banner;
+	
+	private String profile;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "uid", referencedColumnName = "uid")

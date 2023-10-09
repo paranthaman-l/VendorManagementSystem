@@ -10,13 +10,10 @@ class VendorService {
     getVendorData = (vid) => vendorApi.get('/byVid', { params: { vid } });
     
     updateBanner = (data) => {
-        const formData = this.createFormData(data);
-        return vendorApi.put('/updateBanner', formData);
+        return vendorApi.put('/updateBanner', data);
     }
     updateProfile = (data) => {
-        const formData = this.createFormData(data);
-        console.log(formData);
-        return vendorApi.put('/updateProfile', formData);
+        return vendorApi.put('/updateProfile', data);
     }
 
     ChangePassword(email, password) {

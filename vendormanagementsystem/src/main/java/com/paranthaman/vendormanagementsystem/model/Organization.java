@@ -29,13 +29,10 @@ public class Organization {
     private String oid;
     private boolean isVerified;
 
-    @Lob
-    @Column(name = "banner", columnDefinition = "LONGBLOB")
-    private byte[] banner;
-
-    @Lob
-    @Column(name = "profile", columnDefinition = "LONGBLOB")
-    private byte[] profile;
+	private String banner;
+	
+	private String profile;
+    
     // private String companyName;
     // private String contact;
     // private String address;

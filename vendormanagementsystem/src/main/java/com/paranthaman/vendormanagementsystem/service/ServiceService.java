@@ -1,15 +1,20 @@
 package com.paranthaman.vendormanagementsystem.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.paranthaman.vendormanagementsystem.model.ServiceModel;
 import com.paranthaman.vendormanagementsystem.repository.ServiceRepository;
+import com.paranthaman.vendormanagementsystem.repository.VendorRepository;
 
 @Service
 public class ServiceService {
+
+    @Autowired
+    private VendorRepository vendorRepository;
 
     @Autowired
     private ServiceRepository serviceRepository;
@@ -19,9 +24,10 @@ public class ServiceService {
         return services;
     }
 
-    public String addService(ServiceModel serviceModel) {
+    public String addService(ServiceModel serviceModel, String vid) {
+        serviceModel.setVendor(vendorRepository.findById(vid).get());
         serviceRepository.save(serviceModel);
-        return serviceModel.getSid();
+        return "Service Added Successfully!";
     }
 
     public Boolean putService(String sid, ServiceModel serviceModel) {
@@ -56,6 +62,10 @@ public class ServiceService {
                 .serviceDuration(serviceModel.getServiceDuration())
                 .serviceAvailability(serviceModel.getServiceAvailability()).build();
         return newServiceModel;
+    }
+
+    public ArrayList<ServiceModel> getAllServicesByIds(List<String> ids) {
+        return (ArrayList<ServiceModel>) serviceRepository.findAllById(ids);
     }
 
 }
