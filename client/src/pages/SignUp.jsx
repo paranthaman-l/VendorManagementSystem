@@ -6,13 +6,13 @@ import VendorService from "../services/VendorService";
 import { logo, signUpUndraw } from "../constant";
 import { FcCheckmark } from 'react-icons/fc'
 import { setVendor } from "../slices/vendorSlice";
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getPendingVendors } from "../slices/adminSlice";
+import AuthService from "../services/AuthService";
 const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const vendors = useSelector(getPendingVendors)
-  console.log(vendors);
   const [signUpType, setSignUpType] = useState("");
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [actualOtp, setActualOtp] = useState("");
@@ -102,35 +102,35 @@ const SignUp = () => {
       }).catch((error) => {
         console.log(error);
       })
+      
     }
+    setLoading(false);
   };
   const Verify = async (e) => {
     e.preventDefault();
     const enteredOtp = otp.join('')
-    console.log(enteredOtp);
     if (enteredOtp.length < 6) {
       toast.error("Enter OTP");
       return;
     }
     if (actualOtp === enteredOtp) {
       setLoading(true);
-      await VendorService.SignUp(signUp)
-        .then((res) => {
-          const response = res.data;
-          setTimeout(() => {
-            setLoading(false);
-            if (response.error === null) {
-              toast.success("OTP verified successfully");
-              navigate('/getDetails')
-              dispatch(setVendor(signUp))
-            }
-            else
-              toast.error(response.error);
-          }, 600)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      await AuthService.SignUp({
+        name:`${signUp.firstName+" "+signUp.lastName}`,
+        email:signUp.email,
+        password:signUp.password,
+        role:signUpType,
+      }).then((res)=>{
+        if(res.data){
+          toast.success(res.data);
+          setTimeout(()=>{
+            // navigate("/login");
+            navigate('/getDetails')
+          },2000)
+        }
+      }).catch((err)=>{
+        setLoading(false);
+      })
       setLoading(false);
     }
     else {
@@ -222,6 +222,7 @@ const SignUp = () => {
           </div>
           <form
             action=""
+            // onSubmit={SignUp}
             onSubmit={showOtpInput ? Verify : SignUp}
             className="flex rounded-xl justify-around flex-col p-8 items-center"
           >
@@ -381,6 +382,7 @@ const SignUp = () => {
                 className="bg-blue m-4 text-white h-10 min-w-[100px]  px-5 py-2 cursor-pointer rounded-md hover:bg-hoverBlue"
                 type="submit"
                 value={showOtpInput ? "Verify" : "SignUp"}
+                // value={"SignUp"}
               />
             }
           </form>

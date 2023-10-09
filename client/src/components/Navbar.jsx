@@ -36,13 +36,14 @@ const Navbar = () => {
     "/admin/organization",
     "/admin/complaints",
     "/admin/team",
-    "/home",
-    "/onboardingTeam",
-    "/services",
-    "/services",
-    "/contracts",
-    "/riskManagement",
-    "/certifications",
+    "/vendor/home",
+    "/vendor/onboardingTeam",
+    "/vendor/services",
+    "/vendor/services",
+    "/vendor/contracts",
+    "/vendor/riskManagement",
+    "/vendor/certifications",
+    "/vendor/profile",
     "/getDetails"
   ]
   return (

@@ -3,7 +3,13 @@ import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from 'react-hot-toast';
 import VendorService from "../services/VendorService";
 import { loginUndraw, logo } from "../constant";
+import AuthService from "../services/AuthService";
+import { useDispatch, useSelector } from "react-redux";
+import { getVendor, setVendor } from '../slices/vendorSlice'
+import OrganizationService from "../services/OrganizationService";
 const Login = () => {
+  const dispatch = useDispatch();
+  const vendor = useSelector(getVendor)
   const navigate = useNavigate();
   const [loginType, setLoginType] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,33 +38,60 @@ const Login = () => {
     const error = Validate();
     if (Object.keys(error).length === 0) {
       setLoading(true);
-      await VendorService.Login(login).then((res) => {
-        const response = res.data;
-        if (response.error === null) {
-          setTimeout(() => {
+      await AuthService.Login(login).then((response) => {
+        if (response.data.error === null) {
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('role', response.data.role);
+          localStorage.setItem('id', response.data.uid);
+          setTimeout(async () => {
             setLoading(false);
-            if (response.data.verified)
-              navigate("/home");
-            else
-              toast.error("Admin Not Verified");
+            if (response.data.role === "VENDOR" && loginType === "vendor") {
+              await VendorService.getVendorData(response.data.uid).then((res) => {
+                if (res.data.verified) {
+                  dispatch(setVendor(res.data))
+                  setTimeout(() => {
+                    toast.success("Welcome Vendor " + res.data.user.name, {
+                      style: { marginTop: 10 }
+                    });
+                  }, 200);
+                  navigate("/vendor/home");
+                  return;
+                }
+                else
+                  toast.error("Admin Not Verified your Account");
+              }).catch(() => {
+                toast.error("Something went wrong!");
+
+              })
+              // localStorage.clear();
+            }
+            else if (response.data.role === "ORGANIZATION" && loginType === "organization") {
+              await OrganizationService.getOrganizationData(response.data.uid).then((res) => {
+                if (res.data.verified) {
+                  navigate("/organization/home");
+                  return;
+                }
+                else
+                  toast.error("Admin Not Verified your Account");
+              }).catch(() => {
+                toast.error("Something went wrong!");
+              })
+              // localStorage.clear();
+            }
+            else {
+              toast.error("Something went wrong!");
+            }
           }, 1000);
         }
         else {
-          setTimeout(() => {
-            toast.error(response.error);
-            setLoginError({});
-            let error = {};
-            if (response.error === "Invalid Email")
-              error.email = response.error;
-            else
-              error.password = response.error;
-            setLoginError(error);
-            setLoading(false);
-          }, 500);
+          toast.error("Something went wrong!");
+          setLoading(false);
         }
+        setLoading(false);
       })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          toast.error("Something went wrong!");
+          setLoading(false);
         });
     }
   }
@@ -227,11 +260,11 @@ const Login = () => {
       </div>
       <p className="text-darkGray text-sm absolute bottom-16 max-md:relative max-md:bottom-0">
         By signing up, you agree to our{" "}
-        <span onClick={()=>navigate('/terms&condition')} className="text-blue hover:text-hoverBlue cursor-pointer">
+        <span onClick={() => navigate('/terms&condition')} className="text-blue hover:text-hoverBlue cursor-pointer">
           Terms of Use
         </span>{" "}
         and{" "}
-        <span onClick={()=>navigate('/policy')} className="text-blue hover:text-hoverBlue cursor-pointer">
+        <span onClick={() => navigate('/policy')} className="text-blue hover:text-hoverBlue cursor-pointer">
           Privacy Policy
         </span>
       </p>

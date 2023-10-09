@@ -77,7 +77,7 @@ const Footer = () => {
                 "Template Library",
                 "Events",
                 "Time Card Calculator",
-                "Delta vs Whatsapp"
+                "Delta vs Paper"
             ]
         }
     ]

@@ -1,12 +1,12 @@
 import { otpApi } from "../apis/axios";
 
-class UserService {
+class OtpService {
     SignUpSendOtp({ email, firstName }) {
-        return otpApi.get('/signup/send-otp', { params: { email, firstName } });
+        return otpApi.post('/signup/send-otp',{email: email, name: firstName});
     }
     ForgetPasswordSendOtp(email) {
         return otpApi.get('/forgetPwd/send-otp', { params: { email } });
     }
 }
 
-export default new UserService();
+export default new OtpService();
