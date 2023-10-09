@@ -8,3 +8,77 @@
 2023-10-10T00:01:42.309+05:30 DEBUG 13924 --- [http-nio-1612-exec-2] o.s.security.web.FilterChainProxy        : Securing PUT /error
 2023-10-10T00:01:42.318+05:30 DEBUG 13924 --- [http-nio-1612-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
 2023-10-10T00:01:42.334+05:30 DEBUG 13924 --- [http-nio-1612-exec-2] o.s.s.w.a.Http403ForbiddenEntryPoint     : Pre-authenticated entry point called. Rejecting access
+2023-10-10T00:03:32.968+05:30 DEBUG 13924 --- [http-nio-1612-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/getVendors?verified=false
+2023-10-10T00:03:32.969+05:30 DEBUG 13924 --- [http-nio-1612-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /admin/getVendors?verified=false
+2023-10-10T00:03:32.990+05:30 DEBUG 13924 --- [http-nio-1612-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /admin/getVendors?verified=false
+2023-10-10T00:03:38.236+05:30 DEBUG 13924 --- [http-nio-1612-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/approveVendor
+2023-10-10T00:03:38.240+05:30 DEBUG 13924 --- [http-nio-1612-exec-3] o.s.security.web.FilterChainProxy        : Securing PUT /admin/approveVendor
+2023-10-10T00:03:38.254+05:30 DEBUG 13924 --- [http-nio-1612-exec-3] o.s.security.web.FilterChainProxy        : Secured PUT /admin/approveVendor
+2023-10-10T00:03:38.257+05:30  WARN 13924 --- [http-nio-1612-exec-3] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'vid' for method parameter type String is not present]
+2023-10-10T00:03:38.257+05:30 DEBUG 13924 --- [http-nio-1612-exec-3] o.s.security.web.FilterChainProxy        : Securing PUT /error
+2023-10-10T00:03:38.263+05:30 DEBUG 13924 --- [http-nio-1612-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2023-10-10T00:03:38.263+05:30 DEBUG 13924 --- [http-nio-1612-exec-3] o.s.s.w.a.Http403ForbiddenEntryPoint     : Pre-authenticated entry point called. Rejecting access
+2023-10-10T00:04:57.963+05:30 DEBUG 13924 --- [http-nio-1612-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /auth/byToken
+2023-10-10T00:04:58.018+05:30 DEBUG 13924 --- [http-nio-1612-exec-7] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/getVendors?verified=false
+2023-10-10T00:04:58.028+05:30 DEBUG 13924 --- [http-nio-1612-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/getVendors?verified=true
+2023-10-10T00:04:58.033+05:30 DEBUG 13924 --- [http-nio-1612-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /admin/getVendors?verified=false
+2023-10-10T00:04:58.035+05:30 DEBUG 13924 --- [http-nio-1612-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /auth/byToken
+2023-10-10T00:04:58.066+05:30 DEBUG 13924 --- [http-nio-1612-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /admin/getVendors?verified=true
+2023-10-10T00:04:58.088+05:30 DEBUG 13924 --- [http-nio-1612-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2023-10-10T00:04:58.117+05:30 DEBUG 13924 --- [http-nio-1612-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /auth/byToken
+2023-10-10T00:04:58.231+05:30 DEBUG 13924 --- [http-nio-1612-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /admin/getVendors?verified=true
+2023-10-10T00:04:58.231+05:30 DEBUG 13924 --- [http-nio-1612-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /admin/getVendors?verified=false
+2023-10-10T00:04:58.345+05:30 DEBUG 13924 --- [http-nio-1612-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/byAid?aid=0980faa5-5982-47fb-a6f0-90c4aafd3f44
+2023-10-10T00:04:58.356+05:30 DEBUG 13924 --- [http-nio-1612-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /admin/byAid?aid=0980faa5-5982-47fb-a6f0-90c4aafd3f44
+2023-10-10T00:04:58.365+05:30 DEBUG 13924 --- [http-nio-1612-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /admin/byAid?aid=0980faa5-5982-47fb-a6f0-90c4aafd3f44
+2023-10-10T00:05:02.411+05:30 DEBUG 13924 --- [http-nio-1612-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/approveVendor
+2023-10-10T00:05:02.418+05:30 DEBUG 13924 --- [http-nio-1612-exec-6] o.s.security.web.FilterChainProxy        : Securing PUT /admin/approveVendor
+2023-10-10T00:05:02.439+05:30 DEBUG 13924 --- [http-nio-1612-exec-6] o.s.security.web.FilterChainProxy        : Secured PUT /admin/approveVendor
+2023-10-10T00:05:02.635+05:30  WARN 13924 --- [http-nio-1612-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'vid' for method parameter type String is not present]
+2023-10-10T00:05:02.642+05:30 DEBUG 13924 --- [http-nio-1612-exec-6] o.s.security.web.FilterChainProxy        : Securing PUT /error
+2023-10-10T00:05:02.642+05:30 DEBUG 13924 --- [http-nio-1612-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2023-10-10T00:05:02.658+05:30 DEBUG 13924 --- [http-nio-1612-exec-6] o.s.s.w.a.Http403ForbiddenEntryPoint     : Pre-authenticated entry point called. Rejecting access
+2023-10-10T00:05:41.008+05:30 DEBUG 13924 --- [http-nio-1612-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/getVendors?verified=false
+2023-10-10T00:05:41.008+05:30 DEBUG 13924 --- [http-nio-1612-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/getVendors?verified=true
+2023-10-10T00:05:41.009+05:30 DEBUG 13924 --- [http-nio-1612-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /admin/getVendors?verified=false
+2023-10-10T00:05:41.016+05:30 DEBUG 13924 --- [http-nio-1612-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /admin/getVendors?verified=true
+2023-10-10T00:05:41.016+05:30 DEBUG 13924 --- [http-nio-1612-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /auth/byToken
+2023-10-10T00:05:41.027+05:30 DEBUG 13924 --- [http-nio-1612-exec-7] o.s.security.web.FilterChainProxy        : Securing POST /auth/byToken
+2023-10-10T00:05:41.027+05:30 DEBUG 13924 --- [http-nio-1612-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2023-10-10T00:05:41.027+05:30 DEBUG 13924 --- [http-nio-1612-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /admin/getVendors?verified=false
+2023-10-10T00:05:41.027+05:30 DEBUG 13924 --- [http-nio-1612-exec-7] o.s.security.web.FilterChainProxy        : Secured POST /auth/byToken
+2023-10-10T00:05:41.041+05:30 DEBUG 13924 --- [http-nio-1612-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /admin/getVendors?verified=true
+2023-10-10T00:05:41.072+05:30 DEBUG 13924 --- [http-nio-1612-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/byAid?aid=0980faa5-5982-47fb-a6f0-90c4aafd3f44
+2023-10-10T00:05:41.076+05:30 DEBUG 13924 --- [http-nio-1612-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /admin/byAid?aid=0980faa5-5982-47fb-a6f0-90c4aafd3f44
+2023-10-10T00:05:41.088+05:30 DEBUG 13924 --- [http-nio-1612-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /admin/byAid?aid=0980faa5-5982-47fb-a6f0-90c4aafd3f44
+2023-10-10T00:05:43.240+05:30 DEBUG 13924 --- [http-nio-1612-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/approveVendor?vid=53d67910-f72c-4387-8ab0-e26c87fd4b4c
+2023-10-10T00:05:43.245+05:30 DEBUG 13924 --- [http-nio-1612-exec-1] o.s.security.web.FilterChainProxy        : Securing PUT /admin/approveVendor?vid=53d67910-f72c-4387-8ab0-e26c87fd4b4c
+2023-10-10T00:05:43.275+05:30 DEBUG 13924 --- [http-nio-1612-exec-1] o.s.security.web.FilterChainProxy        : Secured PUT /admin/approveVendor?vid=53d67910-f72c-4387-8ab0-e26c87fd4b4c
+2023-10-10T00:05:44.210+05:30 DEBUG 13924 --- [http-nio-1612-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /admin/getVendors?verified=false
+2023-10-10T00:05:44.233+05:30 DEBUG 13924 --- [http-nio-1612-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /admin/getVendors?verified=false
+2023-10-10T00:05:54.956+05:30 DEBUG 13924 --- [http-nio-1612-exec-7] o.s.security.web.FilterChainProxy        : Securing OPTIONS /vendor/byVid
+2023-10-10T00:05:54.956+05:30 DEBUG 13924 --- [http-nio-1612-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/getVendors?verified=false
+2023-10-10T00:05:54.966+05:30 DEBUG 13924 --- [http-nio-1612-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /auth/byToken
+2023-10-10T00:05:54.979+05:30 DEBUG 13924 --- [http-nio-1612-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/getVendors?verified=true
+2023-10-10T00:05:54.979+05:30 DEBUG 13924 --- [http-nio-1612-exec-6] o.s.security.web.FilterChainProxy        : Securing POST /auth/byToken
+2023-10-10T00:05:54.985+05:30 DEBUG 13924 --- [http-nio-1612-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2023-10-10T00:05:54.985+05:30 DEBUG 13924 --- [http-nio-1612-exec-6] o.s.security.web.FilterChainProxy        : Secured POST /auth/byToken
+2023-10-10T00:05:55.035+05:30 DEBUG 13924 --- [http-nio-1612-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /admin/getVendors?verified=true
+2023-10-10T00:05:55.042+05:30 DEBUG 13924 --- [http-nio-1612-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /vendor/byVid
+2023-10-10T00:05:55.038+05:30 DEBUG 13924 --- [http-nio-1612-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /admin/getVendors?verified=false
+2023-10-10T00:05:55.067+05:30 DEBUG 13924 --- [http-nio-1612-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /admin/getVendors?verified=false
+2023-10-10T00:05:55.096+05:30 DEBUG 13924 --- [http-nio-1612-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /vendor/byVid
+2023-10-10T00:05:55.096+05:30  WARN 13924 --- [http-nio-1612-exec-4] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'vid' for method parameter type String is not present]
+2023-10-10T00:05:55.099+05:30 DEBUG 13924 --- [http-nio-1612-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /error
+2023-10-10T00:05:55.100+05:30 DEBUG 13924 --- [http-nio-1612-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2023-10-10T00:05:55.100+05:30 DEBUG 13924 --- [http-nio-1612-exec-4] o.s.s.w.a.Http403ForbiddenEntryPoint     : Pre-authenticated entry point called. Rejecting access
+2023-10-10T00:05:55.100+05:30 DEBUG 13924 --- [http-nio-1612-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /admin/getVendors?verified=true
+2023-10-10T00:05:55.608+05:30 DEBUG 13924 --- [http-nio-1612-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/byAid?aid=0980faa5-5982-47fb-a6f0-90c4aafd3f44
+2023-10-10T00:05:55.611+05:30 DEBUG 13924 --- [http-nio-1612-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /admin/byAid?aid=0980faa5-5982-47fb-a6f0-90c4aafd3f44
+2023-10-10T00:05:55.636+05:30 DEBUG 13924 --- [http-nio-1612-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /admin/byAid?aid=0980faa5-5982-47fb-a6f0-90c4aafd3f44
+2023-10-10T00:06:52.383+05:30 DEBUG 13924 --- [http-nio-1612-exec-1] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/getVendors?verified=false
+2023-10-10T00:06:52.383+05:30 DEBUG 13924 --- [http-nio-1612-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /admin/getVendors?verified=true
+2023-10-10T00:06:52.383+05:30 DEBUG 13924 --- [http-nio-1612-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /admin/getVendors?verified=false
+2023-10-10T00:06:52.383+05:30 DEBUG 13924 --- [http-nio-1612-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /admin/getVendors?verified=true
+2023-10-10T00:06:52.404+05:30 DEBUG 13924 --- [http-nio-1612-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /admin/getVendors?verified=true
+2023-10-10T00:06:52.404+05:30 DEBUG 13924 --- [http-nio-1612-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /admin/getVendors?verified=false
