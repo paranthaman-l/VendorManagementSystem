@@ -7,6 +7,8 @@ import AuthService from "../services/AuthService";
 import { useDispatch, useSelector } from "react-redux";
 import { getVendor, setVendor } from '../slices/vendorSlice'
 import OrganizationService from "../services/OrganizationService";
+import { organizationApi, vendorApi } from "../apis/axios";
+import { setOrganization } from "../slices/organizationSlice";
 const Login = () => {
   const dispatch = useDispatch();
   const vendor = useSelector(getVendor)
@@ -39,6 +41,7 @@ const Login = () => {
     if (Object.keys(error).length === 0) {
       setLoading(true);
       await AuthService.Login(login).then((response) => {
+        console.log(response);
         if (response.data.error === null) {
           localStorage.setItem('token', response.data.token);
           localStorage.setItem('role', response.data.role);
@@ -46,6 +49,10 @@ const Login = () => {
           setTimeout(async () => {
             setLoading(false);
             if (response.data.role === "VENDOR" && loginType === "vendor") {
+              vendorApi.interceptors.request.use((config) => {
+                config.headers.Authorization = "Bearer " + response.data.token;
+                return config;
+              })
               await VendorService.getVendorData(response.data.uid).then((res) => {
                 if (res.data.verified) {
                   dispatch(setVendor(res.data))
@@ -61,13 +68,17 @@ const Login = () => {
                   toast.error("Admin Not Verified your Account");
               }).catch(() => {
                 toast.error("Something went wrong!");
-
               })
               // localStorage.clear();
             }
             else if (response.data.role === "ORGANIZATION" && loginType === "organization") {
+              organizationApi.interceptors.request.use((config) => {
+                config.headers.Authorization = "Bearer " + response.data.token;
+                return config;
+              })
               await OrganizationService.getOrganizationData(response.data.uid).then((res) => {
                 if (res.data.verified) {
+                  dispatch(setOrganization(res.data))
                   navigate("/organization/home");
                   return;
                 }

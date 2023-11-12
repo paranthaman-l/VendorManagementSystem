@@ -3,10 +3,12 @@ import { serviceApi } from "../apis/axios";
 class ServiceService {
     getAllServices = () => serviceApi.get('/getAll');
 
-    addService = (service) => serviceApi.post('/postService', service);
+    addService = (service,vid) => serviceApi.post('/postService?vid='+localStorage.getItem('id'), service);
 
-    putService = (sid, service) => serviceApi.post('/putService', { params: { sid } }, service);
+    putService = (service) => serviceApi.put('/putService?vid='+localStorage.getItem("id"), service);
 
-    deleteService = (sid) => serviceApi.post('/deleteService', { params: { sid } });
+    deleteService = (sid) => serviceApi.delete('/deleteService?sid='+sid);
+
+    getAllVendorServices = () => serviceApi.get("/getVendorServices", {params:{vid:localStorage.getItem("id")}});
 }
 export default new ServiceService();

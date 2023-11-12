@@ -6,6 +6,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -36,13 +38,13 @@ import lombok.Setter;
 @Getter
 @Builder
 @Table(name = "review")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "rid")
 public class ReviewModel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String rid;
     private String review;
 
-    @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_vid", referencedColumnName = "vid")
     private Vendor manyToOneVendor;

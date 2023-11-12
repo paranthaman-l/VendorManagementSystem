@@ -10,6 +10,9 @@ const OrganizationHome = () => {
       <div className='mt-20 flex flex-col min-h-screen bg-lightGray2'>
         <Toaster position='top-right' />
         <SideBar />
+        <div className="mx-80">
+        
+        </div>
       </div>
     </>
   )

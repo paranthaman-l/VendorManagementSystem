@@ -33,11 +33,11 @@ public class AdminService {
     private final ContractRepository contractRepository;
     private final UserRepository userRepository;
 
-    public AdminDTO getAdmin(String aid) {
+    public Admin getAdmin(String aid) {
         Admin admin = adminRepository.findById(aid).get();
-        User user = admin.getUser();
-        var adminDTO = AdminDTO.builder().aid(aid).name(user.getName()).email(user.getEmail()).build();
-        return adminDTO;
+        // User user = admin.getUser();
+        // var adminDTO = AdminDTO.builder().aid(aid).name(user.getName()).email(user.getEmail()).build();
+        return admin;
     }
 
     public String approveVendor(String vid) {
@@ -105,6 +105,10 @@ public class AdminService {
                 .organizationCount(organizationRepository.count())
                 .contractCount(contractRepository.count()).build();
         return count;
+    }
+
+    public List<Organization> getOrganizations(Boolean verified) {
+                return organizationRepository.findAllByIsVerified(verified);
     }
 
 }

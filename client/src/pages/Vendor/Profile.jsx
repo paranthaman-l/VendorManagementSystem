@@ -105,6 +105,35 @@ const Profile = () => {
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
     }, [])
+    const [timeDifference, setTimeDifference] = useState(null);
+    useEffect(() => {
+        const calculateTimeDifference = () => {
+          const createdAtDate = new Date(vendor?.user?.createdAt);
+          const currentDate = new Date();
+    
+          const timeDiffInMilliseconds = currentDate - createdAtDate;
+          const seconds = Math.floor(timeDiffInMilliseconds / 1000);
+          const minutes = Math.floor(seconds / 60);
+          const hours = Math.floor(minutes / 60);
+          const days = Math.floor(hours / 24);
+    
+          let differenceString = '';
+    
+          if (days > 0) {
+            differenceString += `${days} ${days === 1 ? 'day' : 'days'} ago`;
+          } else if (hours > 0) {
+            differenceString += `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+          } else if (minutes > 0) {
+            differenceString += `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+          } else {
+            differenceString += `${seconds} ${seconds === 1 ? 'second' : 'seconds'} ago`;
+          }
+    
+          setTimeDifference(differenceString);
+        };
+    
+        calculateTimeDifference();
+      }, []);
     return (
         <div className='mt-20 flex flex-col min-h-screen bg-lightGray2'>
             <Sidebar />
@@ -151,11 +180,11 @@ const Profile = () => {
                             </li>
                             <li className="flex border-b py-2">
                                 <span className="font-bold w-24">Joined:</span>
-                                <span className="text-gray-700">10 Jan 2022 (25 days ago)</span>
+                                <span className="text-gray-700">{timeDifference}</span>
                             </li>
                             <li className="flex border-b py-2">
                                 <span className="font-bold w-24">Mobile:</span>
-                                <span className="text-gray-700">(123) 123-1234</span>
+                                <span className="text-gray-700">+91 {vendor?.contact}</span>
                             </li>
                             <li className="flex border-b py-2">
                                 <span className="font-bold w-24">Email:</span>
@@ -163,7 +192,7 @@ const Profile = () => {
                             </li>
                             <li className="flex border-b py-2">
                                 <span className="font-bold w-24">Location:</span>
-                                <span className="text-gray-700">New York, US</span>
+                                <span className="text-gray-700">{vendor?.location}</span>
                             </li>
                             <li className="flex border-b py-2">
                                 <span className="font-bold w-24">Languages:</span>
@@ -186,8 +215,9 @@ const Profile = () => {
                             </li>
                         </ul>
                     </div>
-                    <div className="w-7/12 mx-10 bg-white min-h-full">
-                       About
+                    <div className="w-7/12 mx-10 p-5 bg-white min-h-full">
+                       <p className="font-semibold">About</p>
+                       <p className="mt-5 indent-10">{vendor?.about}</p>
                     </div>
                 </div>
             </div>

@@ -11,21 +11,34 @@ import plusblack from '../../assets/imgs/plusblack.svg'
 import down from '../../assets/imgs/down.svg'
 import deleteIcon from '../../assets/imgs/delete.svg'
 import addEmployee from '../../assets/imgs/add-users.gif'
-import AddService from './AddService'
+import AddEmployee from './AddEmployee'
+import VendorService from '../../services/VendorService'
 const OnboardingTeam = () => {
     const [isEmployee, setIsEmployee] = useState("employees");
-    const [showAddService,setShowAddService] = useState(false);
+    const [showAddEmployee, setShowAddEmployee] = useState(false);
+    const [employees, setEmployees] = useState([]);
     const addRef = useRef();
     const handleClickOutside = () => {
-      if (addRef.current && !addRef.current.contains(event.target))
-      setShowAddService(false);
+        if (addRef.current && !addRef.current.contains(event.target))
+            setShowAddEmployee(false);
+    }
+    const getEmployees = async () => {
+        await VendorService.getAllEmployees().then((response) => {
+            setEmployees(response.data)
+        }).catch((error) => {
+            // console.log(error);
+        })
     }
     useEffect(() => {
-      document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener("mousedown", handleClickOutside);
+    }, []);
+    useEffect(() => {
+        getEmployees();
     }, [])
+    
     return (
         <div className='mt-20 flex flex-col min-h-screen bg-lightGray2'>
-            {showAddService && <AddService addRef={addRef} setShowAddService={setShowAddService}/>}
+            {showAddEmployee && <AddEmployee addRef={addRef} setShowAddEmployee={setShowAddEmployee} />}
             <Sidebar />
             <div className="ml-60 mt-5 flex flex-col">
                 <div className="flex justify-between px-10 mr-5 py-3 rounded-xl bg-white shadow-xl">
@@ -62,12 +75,12 @@ const OnboardingTeam = () => {
                                 <img className="mr-2" src={search} alt="" />
                             </div>
                             <button className='flex justify-center items-center bg-lightGray py-2 px-3 border-[1.5px] border-darkGray border-opacity-40 text-blue font-openSans hover:border-blue mx-2 rounded-2xl'>Export <img src={down} className='mx-2' alt="" /></button>
-                            <button onClick={()=>setShowAddService(true)} className='flex justify-center items-center bg-blue hover:bg-hoverBlue py-[9px] px-3  text-white font-openSans hover:border-blue mx-2 rounded-2xl'><img src={plus} className='mx-2' alt="" />{isEmployee === 'employees' ? "Add Employee" : "Create Group"}</button>
+                            <button onClick={() => setShowAddEmployee(true)} className='flex justify-center items-center bg-blue hover:bg-hoverBlue py-[9px] px-3  text-white font-openSans hover:border-blue mx-2 rounded-2xl'><img src={plus} className='mx-2' alt="" />{isEmployee === 'employees' ? "Add Employee" : "Create Group"}</button>
                         </div>
                     </div>
                     {isEmployee === 'employees' ?
                         <div className="flex flex-col text-center">
-                            <table className='mt-4 mx-6'>
+                            {/* <table className='mt-4 mx-6'>
                                 <tr className='font-openSans bg-lightGray1 border-b-[2px] border-darkGray border-opacity-20 '>
                                     <th className='pr-20'></th>
                                     <th className='font-light text-sm text-start'>First name</th>
@@ -90,6 +103,70 @@ const OnboardingTeam = () => {
                                     <th className='font-light text-sm text-start py-4'>22 Sep 2023</th>
                                     <th className='font-light text-sm text-start py-4 opacity-0 group-hover:opacity-100 cursor-pointer'><img src={deleteIcon} alt="" /></th>
                                 </tr>
+                            </table> */}
+
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <label htmlFor='allCheckBox'>
+                                                <input type="checkbox" className="checkbox" />
+                                            </label>
+                                        </th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Service</th>
+                                        <th>Performance</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {employees?.map((employee, index) => {
+                                        return (
+                                            <tr key={index} className=''>
+                                                <th>
+                                                    <label >
+                                                        <input id='allCheckBox' type="checkbox" className="checkbox" />
+                                                    </label>
+                                                </th>
+                                                <td>
+                                                    <div className="flex items-center space-x-3">
+                                                        <div className="avatar">
+                                                            <div className="mask mask-squircle w-12 h-12">
+                                                                <img src={employee?.profile || paranthaman} alt="Avatar Tailwind CSS Component" />
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div className="font-bold">{employee?.firstName}</div>
+                                                            <div className="text-sm opacity-50">{employee?.position || "Position"}</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className='text-sm'>
+                                                    {employee?.email}
+                                                    {/* <br />
+                  <span className="badge badge-ghost badge-sm">{employee?.email || "email"}</span> */}
+                                                </td>
+                                                <td>{employee?.serviceName || "Service Name"}</td>
+                                                <td>{employee?.performance || "Normal"}</td>
+                                                <th className='flex items-center justify-center h-full py-6'>
+                                                    <button className="btn btn-ghost btn-xs">Details</button>
+                                                    <button className='btn btn-ghost btn-xs '><img src={deleteIcon} alt="" /></button>
+                                                </th>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Service</th>
+                                        <th>Performance</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                             <img className='h-28 object-contain mt-10' src={addEmployee} alt="" />
                             <p className='font-openSans text-xl my-3 font-bold'>Connect your Employees!</p>

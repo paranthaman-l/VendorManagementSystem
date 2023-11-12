@@ -33,6 +33,11 @@ public class ServiceController {
         return ResponseEntity.ok().body(services);
     }
 
+    @GetMapping("/getVendorServices")
+    public List<ServiceModel> getVendorServices(@RequestParam String vid) {
+        return serviceService.getVendorServices(vid);
+    }
+
     @GetMapping("/getAllByIds")
     public ResponseEntity<?> getAllServicesByIds(@RequestParam List<String> ids) {
         ArrayList<ServiceModel> services = serviceService.getAllServicesByIds(ids);
@@ -46,8 +51,8 @@ public class ServiceController {
     }
 
     @PutMapping("/putService")
-    public ResponseEntity<?> putService(@RequestParam String sid, @RequestBody ServiceModel serviceModel) {
-        Boolean flag = serviceService.putService(sid, serviceModel);
+    public ResponseEntity<?> putService(@RequestBody ServiceModel serviceModel,@RequestParam String vid) {
+        Boolean flag = serviceService.putService(vid,serviceModel);
         if (flag)
             return ((BodyBuilder) ResponseEntity.ok()).body("Updated Successfully");
         return ((BodyBuilder) ResponseEntity.notFound()).body("Service Id Not Found");

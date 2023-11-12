@@ -2,6 +2,9 @@ package com.paranthaman.vendormanagementsystem.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,6 +27,7 @@ import lombok.ToString;
 @Entity
 @ToString
 @Table(name = "organization")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "oid")
 public class Organization {
     @Id
     private String oid;
@@ -33,11 +37,13 @@ public class Organization {
 	
 	private String profile;
     
-    // private String companyName;
-    // private String contact;
-    // private String address;
+    private String organizationName;
+    
+    private String contact;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    private String address;
+
+    @OneToMany(mappedBy = "organization")
     private List<ContractModel> contracts;
 
     @OneToOne(cascade = CascadeType.ALL)

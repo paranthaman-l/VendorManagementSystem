@@ -37,6 +37,7 @@ const Navbar = () => {
     "/admin/organization",
     "/admin/complaints",
     "/admin/team",
+    "/admin/account",
     "/vendor/home",
     "/vendor/onboardingTeam",
     "/vendor/services",
@@ -47,8 +48,10 @@ const Navbar = () => {
     "/vendor/profile",
     "/vendor/*",
     "/organization/*",
-    "/getDetails"
-    
+    "/getDetails",
+    "/organization/home",
+    "/organization/requested",
+    "/organization/requestRise"
   ]
   return (
     <>
@@ -68,7 +71,7 @@ const Navbar = () => {
           </div>
             <div className="w-full text-indigo1 ">
               <ul className='flex justify-evenly w-full items-center lg-max:flex-col lg-max:justify-start lg-max:mt-20'>
-                <li onClick={() => navigate('/home')} className='flex justify-center items-center font-poppins font-bold hover:text-blue cursor-pointer lg-max:py-10 lg-max:text-white'>
+                <li  className='flex justify-center items-center font-poppins font-bold hover:text-blue cursor-pointer lg-max:py-10 lg-max:text-white'>
                   Vendors <RiArrowDropDownLine className='text-2xl' />
                 </li>
                 <li className='flex justify-center items-center font-poppins font-bold hover:text-blue cursor-pointer lg-max:py-10 lg-max:text-white'>

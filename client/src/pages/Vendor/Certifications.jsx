@@ -1,9 +1,45 @@
 import Sidebar from "./Sidebar"
 import certifications from '../../assets/imgs/certification.png'
 import search from '../../assets/imgs/search.svg'
+import { useEffect, useRef, useState } from "react"
+import VendorService from '../../services/VendorService'
+import FileUploader from './FileUploader'
+import deleteIcon from '../../assets/imgs/delete.svg'
+import AddCertificate from "./AddCertificate"
+import {BsPlusLg} from 'react-icons/bs'
 const Certifications = () => {
-  return (
-    <div className='mt-20 flex flex-col min-h-screen bg-lightGray2'>
+    const [certificates, setCertificates] = useState([]);
+    const [showAddCertificate, setShowAddCertificate] = useState(false);
+    const getCertificates = async () => {
+        await VendorService.getAllCertificates().then((response) => {
+            console.log(response.data);
+            setCertificates(response.data);
+        }).catch((error) => {
+            // console.log(error);
+        })
+    }
+    const  handleDelete =async(certificateId)=>{
+        await VendorService.deleteCertificate(certificateId).then((response) => {
+            getCertificates();
+        }).catch((error) => {
+            // console.log(error);
+        })
+    }
+    useEffect(() => {
+        getCertificates();
+    }, [])
+    const addRef = useRef();
+    const handleClickOutside = () => {
+        if (addRef.current && !addRef.current.contains(event.target)) {
+            setShowAddCertificate(false);
+        }
+    }
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+    }, [])
+    return (
+        <div className='mt-20 flex flex-col min-h-screen bg-lightGray2'>
+            {showAddCertificate && <AddCertificate addRef={addRef} setShowAddCertificate={setShowAddCertificate} />}
             <Sidebar />
             <div className="ml-60 mt-5 flex flex-col">
                 <div className="flex justify-between px-10 mr-5 py-3 rounded-xl bg-white shadow-xl">
@@ -18,12 +54,28 @@ const Certifications = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex my-6 justify-between px-10 mr-5 py-3 rounded-xl bg-white shadow-xl">
-                    Paranthaman
+                <div className="grid grid-cols-4  gap-4  py-3 rounded-xl bg-white shadow-xl my-7 px10 mr-5">
+                    {certificates.map((certificate, i) => {
+                        return (
+                            <div key={i} className="min-h-[250px] flex justify-center items-center flex-col">
+                                <div className="relative">
+                                    <img className="h-[250px] w-52 rounded-md object-cover relative" src={certificate?.certificate} alt="" />
+                                    <button onClick={()=>handleDelete(certificate?.certificateId)} className='btn btn-ghost btn-xs absolute bg-white bottom-0 right-0 hover:bg-white'><img src={deleteIcon} alt="" /></button>
+                                </div>
+                                <p>{certificate?.title}</p>
+                                <p>{certificate?.description}</p>
+                            </div>
+                        )
+                    })}
+                    <div onClick={() => setShowAddCertificate(true)} className="min-h-[250px] m-9 border-[2px] border-dotted border-blue  flex justify-center items-center">
+                        <span className="text-9xl cursor-pointer" title="Add Certificate">
+                            <BsPlusLg className="font-light"/>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
-  )
+    )
 }
 
 export default Certifications

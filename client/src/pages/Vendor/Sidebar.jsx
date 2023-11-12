@@ -30,11 +30,14 @@ const Sidebar = () => {
         <li onClick={() => { setActive('certifications'); navigate('/vendor/certifications') }} className={`${currentPath === '/vendor/certifications' && "bg-lightSkyBlue2 hover:bg-lightSkyBlue2"} flex justify-start items-center py-3 px-2 cursor-pointer hover:bg-[#f6f7f7]`}>
           <img className='mx-3 h-5 w-5' src={certification} alt="" />Certifications
         </li>
-        <li onClick={() => { setActive('riskManagement'); navigate('/vendor/riskManagement') }} className={`${currentPath === '/vendor/riskManagement' && "bg-lightSkyBlue2 hover:bg-lightSkyBlue2"} flex justify-start items-center py-3 px-2 cursor-pointer hover:bg-[#f6f7f7]`}>
+        {/* <li onClick={() => { setActive('riskManagement'); navigate('/vendor/riskManagement') }} className={`${currentPath === '/vendor/riskManagement' && "bg-lightSkyBlue2 hover:bg-lightSkyBlue2"} flex justify-start items-center py-3 px-2 cursor-pointer hover:bg-[#f6f7f7]`}>
           <img className='mx-3 h-5 w-5' src={risk} alt="" />Risk Management
-        </li>
-        <li onClick={() => { setActive('reviews'); navigate('/vendor/reviews') }} className={`${currentPath === '/vendor/reviews' && "bg-lightSkyBlue2 hover:bg-lightSkyBlue2"} flex justify-start items-center py-3 px-2 cursor-pointer hover:bg-[#f6f7f7]`}>
+        </li> */}
+        {/* <li onClick={() => { setActive('reviews'); navigate('/vendor/reviews') }} className={`${currentPath === '/vendor/reviews' && "bg-lightSkyBlue2 hover:bg-lightSkyBlue2"} flex justify-start items-center py-3 px-2 cursor-pointer hover:bg-[#f6f7f7]`}>
           <img className='mx-3 h-5 w-5' src={review} alt="" />Feedbacks & Reviews
+        </li> */}
+        <li onClick={() => { setActive('serviceRequests'); navigate('/vendor/serviceRequests') }} className={`${currentPath === '/vendor/serviceRequests' && "bg-lightSkyBlue2 hover:bg-lightSkyBlue2"} flex justify-start items-center py-3 px-2 cursor-pointer hover:bg-[#f6f7f7]`}>
+          <img className='mx-3 h-5 w-5' src={review} alt="" />Service Requests
         </li>
       </ul>
     </div>

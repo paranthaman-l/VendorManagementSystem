@@ -1,31 +1,22 @@
 import { adminApi } from "../apis/axios";
 
 class AdminService {
-    createFormData = (data) => {
-        const formData = new FormData();
-        formData.append('id', data.id);
-        formData.append('file', data.file);
-        return formData;
-    }
     getAdminData = (aid) => adminApi.get('/byAid', { params: { aid } });
 
     updateName = (data) => adminApi.put('/updateName', data);
 
-    updateProfile = (data) => {
-        const formData = this.createFormData(data);
-        return adminApi.put('/updateProfile', formData);
-    }
-    updateBanner = (data) => {
-        const formData = this.createFormData(data);
-        return adminApi.put('/updateBanner', formData);
-    }
+    updateProfile = (data) => adminApi.put('/updateProfile', data);
 
-    approveVendor = (vid) => adminApi.put('/approveVendor?vid='+vid);
+    updateBanner = (data) => adminApi.put('/updateBanner', data);
 
-    approveOrganization = (oid) => adminApi.put('/approveOrganization', { params: { oid } });
+    approveVendor = (vid) => adminApi.put('/approveVendor?vid=' + vid);
+
+    approveOrganization = (oid) => adminApi.put('/approveOrganization?oid='+oid );
 
     getCount = () => adminApi.get('/getCount');
 
     getVendors = (verified) => adminApi.get('/getVendors', { params: { verified } });
+
+    getOrganization = (verified) => adminApi.get('/getOrganizations', { params: { verified } });
 }
 export default new AdminService();

@@ -1,7 +1,36 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 
 const Profile = () => {
     const [openSettings, setOpenSettings] = useState(false);
+    const [timeDifference, setTimeDifference] = useState(null);
+    useEffect(() => {
+        const calculateTimeDifference = () => {
+          const createdAtDate = new Date();
+          const currentDate = new Date();
+    
+          const timeDiffInMilliseconds = currentDate - createdAtDate;
+          const seconds = Math.floor(timeDiffInMilliseconds / 1000);
+          const minutes = Math.floor(seconds / 60);
+          const hours = Math.floor(minutes / 60);
+          const days = Math.floor(hours / 24);
+    
+          let differenceString = '';
+    
+          if (days > 0) {
+            differenceString += `${days} ${days === 1 ? 'day' : 'days'} ago`;
+          } else if (hours > 0) {
+            differenceString += `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+          } else if (minutes > 0) {
+            differenceString += `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+          } else {
+            differenceString += `${seconds} ${seconds === 1 ? 'second' : 'seconds'} ago`;
+          }
+    
+          setTimeDifference(differenceString);
+        };
+    
+        calculateTimeDifference();
+      }, []);
     return (
         <div className="h-full bg-gray-200 p-8 flex flex-col">
             <div className="bg-white rounded-lg shadow-xl pb-8 w-full flex flex-col">

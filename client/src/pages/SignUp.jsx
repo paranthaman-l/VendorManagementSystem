@@ -102,7 +102,9 @@ const SignUp = () => {
       }).catch((error) => {
         console.log(error);
       })
-      
+
+    
+      setLoading(false);
     }
     setLoading(false);
   };
@@ -116,19 +118,25 @@ const SignUp = () => {
     if (actualOtp === enteredOtp) {
       setLoading(true);
       await AuthService.SignUp({
-        name:`${signUp.firstName+" "+signUp.lastName}`,
-        email:signUp.email,
-        password:signUp.password,
-        role:signUpType,
-      }).then((res)=>{
-        if(res.data){
-          toast.success(res.data);
-          setTimeout(()=>{
+        name: `${signUp.firstName + " " + signUp.lastName}`,
+        email: signUp.email,
+        password: signUp.password,
+        role: signUpType,
+      }).then((res) => {
+        console.log(res);
+        if (res.data.flag) {
+          // toast.success();
+          setTimeout(() => {
             // navigate("/login");
+            localStorage.setItem("id", res.data.id);
+            localStorage.setItem("role",signUpType);
             navigate('/getDetails')
-          },2000)
+          }, 2000)
         }
-      }).catch((err)=>{
+        else{
+          toast.error("Something went Wrong");
+        }
+      }).catch((err) => {
         setLoading(false);
       })
       setLoading(false);
@@ -382,7 +390,7 @@ const SignUp = () => {
                 className="bg-blue m-4 text-white h-10 min-w-[100px]  px-5 py-2 cursor-pointer rounded-md hover:bg-hoverBlue"
                 type="submit"
                 value={showOtpInput ? "Verify" : "SignUp"}
-                // value={"SignUp"}
+              // value={"SignUp"}
               />
             }
           </form>

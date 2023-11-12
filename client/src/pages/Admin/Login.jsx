@@ -5,6 +5,7 @@ import AdminService from "../../services/AdminService";
 import { useDispatch } from 'react-redux'
 import { setAdmin } from "../../slices/adminSlice";
 import AuthService from "../../services/AuthService";
+import { adminApi } from "../../apis/axios";
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -40,10 +41,15 @@ const Login = () => {
                     setLoading(false);
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('role', response.data.role);
+                    localStorage.setItem('id', response.data.uid);
                     if (response.data.role === "ADMIN") {
-                        console.log("Hii");
+                        adminApi.interceptors.request.use((config) => {
+                            config.headers.Authorization = "Bearer " + response.data.token;
+                            return config;
+                        })
                         await AdminService.getAdminData(response.data.uid).then((res) => {
                             dispatch(setAdmin(res.data))
+                            console.log(res.data);
                             navigate('/admin/dashboard');
                         }).catch(() => {
                             toast.error("Something went wrong!");

@@ -12,14 +12,18 @@ import play from '../assets/imgs/play.svg'
 import question from '../assets/imgs/question.svg'
 import { Menu, MenuHandler, MenuItem, MenuList } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
-import { getVendor, setVendor } from "../slices/vendorSlice";
+import { getVendor, logout, setVendor } from "../slices/vendorSlice";
 import VendorService from "../services/VendorService";
+import OrganizationService from "../services/OrganizationService";
 import toast from "react-hot-toast";
 import Skeleton from 'react-loading-skeleton'
+import { vendorApi } from "../apis/axios";
+import { getOrganization, setOrganization } from "../slices/organizationSlice";
 const ClientNavbar = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const vendor = useSelector(getVendor)
+    const organization = useSelector(getOrganization)
     const location = useLocation();
     const currentPath = location.pathname;
     // eslint-disable-next-line no-unused-vars
@@ -41,14 +45,30 @@ const ClientNavbar = () => {
     }, []);
     useEffect(() => {
         const authentication = async () => {
-            await VendorService.getVendorData(localStorage.getItem('id')).then((res) => {
-                dispatch(setVendor(res.data));
-                setProfile(res.data.profile);
-                setLoading(false);
-            }).catch(() => {
-                // toast.error("Something went wrong!");
-                setLoading(false);
-            })
+            if (localStorage.getItem("role").toLowerCase() === "vendor") {
+
+                await VendorService.getVendorData(localStorage.getItem('id')).then((res) => {
+                    dispatch(setVendor(res.data));
+                    setProfile(res.data.profile);
+                    setLoading(false);
+
+                }).catch(() => {
+                    // toast.error("Something went wrong!");
+                    setLoading(false);
+                })
+            }
+            else if (localStorage.getItem("role").toLowerCase() === "organization") {
+                await OrganizationService.getOrganizationData(localStorage.getItem('id')).then((res) => {
+                    dispatch(setOrganization(res.data.data));
+                    setProfile(res.data.data.profile);
+                    setLoading(false);
+                    console.log(res.data.data)
+                }).catch(() => {
+                    // toast.error("Something went wrong!");
+                    setLoading(false);
+                })
+            }
+
         }
         authentication();
     }, [])
@@ -63,20 +83,22 @@ const ClientNavbar = () => {
         "/admin/dashboard",
         "/admin/organization",
         "/admin/complaints",
+        "/admin/account",
         "/admin/team",
         "/about",
         "/contact",
         "/policy",
         "/terms&condition",
         "/faq",
-        "/getDetails"
+        "/getDetails",
+        "/organization/home"
     ]
     return (
         <>
-            {(!(path.find((p) => (p === currentPath)))) &&
+            {(!(path.find((p) => (p.includes(currentPath))))) &&
                 <div className={`${isScroll && " bg-white  bg-opacity-90"} navbar bg-transparent backdrop-blur-[2px] flex justify-between items-center fixed w-full top-0 z-50 h-20 px-10 duration-500`}>
-                    <div onClick={() => navigate('/vendor/dashboard')} className="flex max-w-[25%] justify-start items-center">
-                        <img className='h-7 w-7' src={delta} alt="" />
+                    <div className="flex max-w-[25%] justify-start items-center">
+                        <img onClick={() => navigate('/')} className='h-7 w-7' src={delta} alt="" />
                         <p className='text-3xl font-poppins font-black p-0 m-0 text-indigo1 hover:text-[#4ad295] cursor-pointer'>Delta</p>
                         <div className="flex mx-10 justify-between min-w-[300px] border-[2px] rounded-xl border-darkGray border-opacity-20 ">
                             <input className="px-2 w-full ml-3 py-2 outline-none bg-transparent" type="text" placeholder="Search anything" />
@@ -114,19 +136,19 @@ const ClientNavbar = () => {
                                     </div>
                                     :
                                     <div className="flex  w-[250px] justify-center border-l-[1px] text-gray border-opacity-50  items-center">
-                                        <img className="h-10 w-10 object-cover mx-2 rounded-full" src={vendor ? vendor?.profile : ""} alt="" />
-                                        <p className="flex justify-center items-center  uppercase text-blue hover:text-hoverBlue cursor-pointer line-clamp-1">{vendor ? vendor?.user?.name : "Vendor Name"}<img className="" src={down} alt="" /></p>
+                                        <img className="h-10 w-10 object-cover mx-2 rounded-full" src={vendor ? vendor?.profile : organization ? organization?.profile : ""} alt="" />
+                                        <p className="flex justify-center items-center  uppercase text-blue hover:text-hoverBlue cursor-pointer line-clamp-1">{vendor ? vendor?.user?.name : organization ? organization?.user?.name : "Name"}<img className="" src={down} alt="" /></p>
                                     </div>
                                 }
                             </MenuHandler>
                             <MenuList className="flex absolute w-[250px] p-2 right-0 top-14 flex-col justify-center bg-white shadow-xl rounded-xl">
                                 <MenuItem className="flex justify-center  p-1 bg-lightSkyBlue2 rounded-xl  items-center">
-                                    <img className="h-10 w-10 object-cover mx-1 rounded-full" src={vendor ? vendor?.profile : ""} alt="" />
-                                    <p className="flex justify-center p-1 flex-col items-start line-clamp-1 uppercase text-black font-semibold  cursor-pointer"><span className="line-clamp-1">{vendor ? vendor?.user?.name : "Vendor Name"}</span><span className="text-sm font-normal font-inter">{vendor ? vendor?.user?.role : "ROLE"}</span></p>
+                                    <img className="h-10 w-10 object-cover mx-1 rounded-full" src={vendor ? vendor?.profile : organization ? organization?.profile : ""} alt="" />
+                                    <p className="flex justify-center p-1 flex-col items-start line-clamp-1 uppercase text-black font-semibold  cursor-pointer"><span className="line-clamp-1">{vendor ? vendor?.user?.name : organization ? organization?.user?.name : "Name"}</span><span className="text-sm font-normal font-inter">{vendor ? vendor?.user?.role : organization ? organization?.user?.role : "ROLE"}</span></p>
                                 </MenuItem>
                                 <MenuItem className="flex items-center hover:bg-white border-t-[1px] border-gray border-opacity-50 mt-2">
                                     <div className="flex flex-col py-1 justify-start w-full text-darkGray">
-                                        <MenuItem onClick={() => navigate('/vendor/profile')} className="flex justify-start items-center py-2 rounded-xl text-lg cursor-pointer my-[2px] w-full hover:bg-lightSkyBlue2">
+                                        <MenuItem onClick={() => navigate("/" + localStorage.getItem("role").toLowerCase() + "/profile")} className="flex justify-start items-center py-2 rounded-xl text-lg cursor-pointer my-[2px] w-full hover:bg-lightSkyBlue2">
                                             <img className="w-6 h-6 mx-2" src={profileIcon} alt="" /> Profile
                                         </MenuItem>
                                         <MenuItem className="flex justify-start items-center py-2 rounded-xl text-lg cursor-pointer my-[2px] w-full hover:bg-lightSkyBlue2">
@@ -136,7 +158,7 @@ const ClientNavbar = () => {
                                             <img className="mx-2 w-6 h-6" src="https://app.connecteam.com/images/base-line/header/notification-bell-new.svg" alt="" />
                                             Notification
                                         </MenuItem>
-                                        <MenuItem onClick={() => { navigate('/login'); localStorage.clear() }} className="flex justify-start items-center py-2 rounded-xl text-lg cursor-pointer my-[2px] w-full hover:bg-lightSkyBlue2">
+                                        <MenuItem onClick={() => { navigate('/login'); localStorage.clear(); vendorApi.interceptors.request.clear(); dispatch(logout()); dispatch(logout()) }} className="flex justify-start items-center py-2 rounded-xl text-lg cursor-pointer my-[2px] w-full hover:bg-lightSkyBlue2">
                                             <img className="w-6 h-6 mx-2" src={signout} alt="" /> Logout
                                         </MenuItem>
                                     </div>

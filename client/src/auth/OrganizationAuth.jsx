@@ -21,9 +21,10 @@ const OrganizationAuth = () => {
               if (role === "ORGANIZATION") {
                 await OrganizationService.getOrganizationData(response.data.uid).then((res)=>{
                   dispatch(setOrganization(res.data));
+                  console.log(res);
                   navigate(path);
                 }).catch(()=>{
-                  toast.error("Something went wrong!")
+                  // toast.error("Something went wrong!")
                 })
               }
             }

@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.paranthaman.vendormanagementsystem.constant.Api;
 import com.paranthaman.vendormanagementsystem.dto.request.AddService;
 import com.paranthaman.vendormanagementsystem.dto.request.UpdateImageDTO;
+import com.paranthaman.vendormanagementsystem.model.CertificationModel;
+import com.paranthaman.vendormanagementsystem.model.Employee;
 import com.paranthaman.vendormanagementsystem.model.Vendor;
 import com.paranthaman.vendormanagementsystem.service.VendorService;
 
@@ -54,4 +58,28 @@ public class VendorController {
         return ResponseEntity.ok().body(vendorService.addService(addService));
     }
 
+    @PostMapping("/addEmployee")
+    public ResponseEntity<?> addEmployee(@RequestBody Employee employee,@RequestParam String sid,@RequestParam String vid){
+        return ResponseEntity.ok().body(vendorService.addEmployee(employee,sid,vid));
+    }
+
+    @GetMapping("/getAllEmployees")
+    public ResponseEntity<?> getEmployees(@RequestParam String vid){
+        return ResponseEntity.ok().body(vendorService.getAllEmployee(vid));
+    }
+
+    @GetMapping("/getAllCertificates")
+    public ResponseEntity<?> getCertificates(@RequestParam String vid){
+        return ResponseEntity.ok().body(vendorService.getAllCertificates(vid));
+    }
+
+    @PostMapping("/addCertificate")
+    public ResponseEntity<?> addCertificate(@RequestParam String vid,@RequestBody CertificationModel certificationModel){
+        return ResponseEntity.ok().body(vendorService.addCertificate(vid,certificationModel));
+    }
+
+    @DeleteMapping("/deleteCertificate")
+    public ResponseEntity<?> deleteCertificate(@RequestParam String certificateId){
+        return ResponseEntity.ok().body(vendorService.deleteCertificate(certificateId));
+    }
 }

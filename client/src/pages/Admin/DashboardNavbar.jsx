@@ -7,6 +7,7 @@ import { getAdmin, logout } from '../../slices/adminSlice'
 import { BsPerson } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom'
 import profile from '../../assets/imgs/paranthaman.jpg'
+import { adminApi } from '../../apis/axios'
 // eslint-disable-next-line react/prop-types
 const DashboardNavbar = ({ setShowSidebar, showSidebar }) => {
     const admin = useSelector(getAdmin);
@@ -14,7 +15,8 @@ const DashboardNavbar = ({ setShowSidebar, showSidebar }) => {
     const dispatch = useDispatch();
     const handleLogout = () => {
         dispatch(logout());
-        localStorage.removeItem('token');
+        localStorage.clear('token');
+        adminApi.interceptors.request.clear();
         navigate('/admin/login');
     }
     return (
@@ -35,14 +37,14 @@ const DashboardNavbar = ({ setShowSidebar, showSidebar }) => {
 
                 </div>
                 <div className="pl-2 flex justify-center font-nutnitoSans items-center group">
-                    <img className='cursor-pointer rounded-full w-10 h-10' src={profile} alt="" />
+                    <img className='cursor-pointer rounded-full w-10 h-10' src={admin ? admin?.profile : profile} alt="" />
                     <div className="flex flex-col mx-2 font-poppins justify-center">
-                        <p className='cursor-pointer'>{admin ? admin.name : "Admin"}</p>
+                        <p className='cursor-pointer'>{admin ? admin?.user?.name : "Admin"}</p>
                         <div className="relative">
                             <p className='text-xs flex  items-center text-[#848789] font-semibold'>Admin <span className='ml-1'><FaCaretDown /></span></p>
                             <div className="bg-white shadow-lg min-w-[100px]  right-0 transition duration-500 ease-in-out transform  absolute hidden group-hover:block ">
                                 <ul className='flex py-2 flex-col text-sm justify-start items-center'>
-                                    <li className='flex px-6 py-3 justify-between items-center border-b-[1px] border-gray w-full border-opacity-50 hover:text-blue cursor-pointer'>
+                                    <li onClick={() => navigate('/admin/account')} className='flex px-6 py-3 justify-between items-center border-b-[1px] border-gray w-full border-opacity-50 hover:text-blue cursor-pointer'>
                                         <BsPerson className='mr-2' />
                                         Account
                                     </li>

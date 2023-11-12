@@ -1,19 +1,13 @@
 import { Button, Menu, MenuHandler, MenuItem, MenuList, Option, Select, Step, Stepper, Textarea } from "@material-tailwind/react";
 import { useCountries } from "use-react-countries";
-import upload from '../assets/imgs/upload.svg'
-import file from '../assets/imgs/file.svg'
-import deleteFile from '../assets/imgs/deleteFile.svg'
-import plus from '../assets/imgs/plus.svg'
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getVendor } from "../slices/vendorSlice";
-import { addNewVendor } from "../slices/adminSlice";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import File from "../components/File";
+import AuthService from "../services/AuthService";
 
 const GetDetails = () => {
-  const vendor = useSelector(getVendor)
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { countries } = useCountries();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -23,40 +17,14 @@ const GetDetails = () => {
   const { name, flags, countryCallingCode } = countries[country];
   const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
   const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
-  const [inputFields, setInputFields] = useState(['']);
-  const handleDelete = (id) => {
-    const filter = inputFields.filter((val, i) => i !== id);
-    setInputFields(filter);
-  }
-  const services = [
-    "Information Technology (IT) Services",
-    "Marketing and Advertising Services",
-    "Financial and Accounting Services",
-    "Human Resources (HR) Services",
-    "Legal Services",
-    "Logistics and Supply Chain Services",
-    "Real Estate and Property Services",
-    "Healthcare Services",
-    "Event Planning and Hospitality Services",
-    "Maintenance and Repair Services",
-    "Consulting Services",
-    "Environmental and Sustainability Services",
-    "Graphic Design and Creative Services",
-    "Security Services",
-    "Education and Training Services",
-    "Telecommunications Services",
-    "Manufacturing and Production Services",
-    "Research and Development Services",
-    "Transportation and Travel Services",
-    "Agricultural and Farming Services"
-  ]
+ 
   const employees = [
     "1-10", "10-20", "20-50", "50-100", "100+"
   ]
   const returns = [
     "1k-10k", "10k-200k", "200k-500k", "500k-1000k", "1000+"
   ]
-  const [data,setData] = useState({})
+  const [data, setData] = useState({})
   const activeStepStyle0 = {
     backgroundColor: (activeStep === 0 || activeStep >= 0) ? "#2998FF" : "#f8f8f8",
   };
@@ -71,16 +39,23 @@ const GetDetails = () => {
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setData({...data,[name]:value});
+    setData({ ...data, [name]: value });
   }
-  const handleSubmit = () =>{
-    const newVendor = {...vendor, ...data}
-    toast.success("SignUp Success");
-    dispatch(addNewVendor(newVendor));
+  const handleSubmit = async () => {
+    // const newVendor = { ...vendor, ...data }
+    // toast.success("SignUp Success");
+    // dispatch(addNewVendor(newVendor));
+    await AuthService.Update(localStorage.getItem("role"), { ...data, profile, certificates: [imageUrl] }).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+    })
     setTimeout(() => {
       navigate('/login')
     }, 1000);
   }
+  const [imageUrl, setImageUrl] = useState("");
+  const [profile, setProfile] = useState("");
   return (
     <div className="min-h-screen bg-lightGray1 flex flex-col items-center justify-center">
       <div className="w-[60%] mx-auto z-10 py-4 px-8 mt-20">
@@ -108,6 +83,8 @@ const GetDetails = () => {
                   name="companyName"
                   id="companyName"
                   onChange={handleChange}
+                  required={true}
+                  value={setData?.companyName}
                 />
                 <div className="flex my-6 items-center">
                   <Menu placement="bottom-start">
@@ -153,60 +130,53 @@ const GetDetails = () => {
                     name="contact"
                     id="contact"
                     onChange={handleChange}
+                    required={true}
+                    value={setData?.contact}
                   />
                 </div>
                 <div className="w-96">
-                  <Textarea name="address" onChange={handleChange} label="Address" />
+                  <Textarea name="address" value={setData?.address} required={true} onChange={handleChange} label="Address" />
                 </div>
               </div>
               : activeStep === 1 ?
-                <div className="flex flex-col pt-10 h-[400px] overflow-scroll">
-                  <p className="pb-5 font-openSans text-xl font-semibold ">Certifications</p>
-                  <div className="container">
-                    <div className="header">
-                      <img src={upload} alt="" />
-                      <p>Browse File to upload!</p>
-                    </div>
-                    <label htmlFor="file" className="footer">
-                      <img src={file} alt="" />
-                      <p>Not selected file</p>
-                      <img src={deleteFile} alt="" />
-                    </label>
-                    <input  id="file" type="file" />
+
+                // <div className="w-1/2 h-[400px]  mx-auto">
+                //   <p className="pb-5 font-openSans text-xl font-semibold">Certifications</p>
+                //   {imageUrl &&
+                //     <img className="h-[90%] w-3/4" src={imageUrl} alt="" />
+                //   }
+                //   <File setImageUrl={setImageUrl} imageUrl={imageUrl} />
+                // </div>
+                <div className="w-1/2 mt-10 h-[400px] flex flex-col mx-auto">
+                  <p className="pb-5 font-openSans text-xl font-semibold">Details</p>
+                  <div className="flex flex-col">
+                    <input
+                      type="text"
+                      className={`border-gray my-3  focus:border-blue focus:placeholder:text-[#9ca3af] ${"" && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray  h-[50px] px-[20px] py-[10px] text-lg w-96 rounded-lg outline-none border-[2.0px] `}
+                      placeholder="location"
+                      name="location"
+                      id="location"
+                      onChange={handleChange}
+                      required={true}
+                      value={setData?.location}
+                    />
+                        <div className="w-96 my-3">
+                  <Textarea name="about" value={setData?.about} required={true} onChange={handleChange} label="About" />
+                </div>
                   </div>
                 </div>
                 : activeStep === 2 ?
-                  <div className="flex flex-col pt-10 h-[400px] w-[49%]">
-                    <p className="pb-5 font-openSans text-xl font-semibold ">Service Info</p>
-                    <Select onChange={handleChange} name="serviceCategory" size="xl" label="Select Service Category" className="h-12">
-                      {services.map((service, i) => {
-                        return (
-                          <Option key={i}>{service}</Option>
-                        )
-                      })}
-                    </Select>
-                    <div className="relative mt-5 h-96 overflow-y-scroll  overflow-x-hidden">
-                      {inputFields.map((id, i) => {
-                        return (
-                          <input
-                            key={i}
-                            type="text"
-                            className={`border-gray my-3  focus:border-blue focus:placeholder:text-[#9ca3af] ${"" && "border-inputErrorRed text-inputErrorRed placeholder:text-inputErrorRed"} text-darkGray  h-[50px] px-[20px] py-[10px] text-lg w-96 rounded-lg outline-none border-[2.0px] `}
-                            placeholder="Service"
-                            name="service"
-                            id="service"
-                            onDoubleClick={() => handleDelete(i)}
-                            onChange={handleChange}
-                          />
-                        )
-                      })}
-                    </div>
-                    <button onClick={() => setInputFields([...inputFields, ''])} className='flex mt-5  justify-center items-center bg-blue hover:bg-hoverBlue py-[9px] px-3  text-white font-openSans hover:border-blue mx-2 rounded-2xl'><img src={plus} className='mx-2' alt="" />Add Service</button>
+                  <div className="w-1/2 h-[400px]  mx-auto flex items-center justify-center flex-col">
+                    <p className="pb-5 font-openSans text-xl font-semibold">Company Logo</p>
+                    {profile &&
+                      <img className="h-56 w-56 rounded-full object-cover" src={profile} alt="" />
+                    }
+                    <File setImageUrl={setProfile} imageUrl={profile} />
                   </div>
                   :
                   <div className="flex flex-col justify-start pt-10 h-[400px] overflow-hidden  w-[49%]">
                     <p className="pb-5 font-openSans my-10 text-xl font-semibold ">Additional Info</p>
-                    <Select  size="xl" label="Select Employees" className=" flex justify-center">
+                    <Select size="xl" label="Select Employees" className=" flex justify-center">
                       {employees.map((employee, i) => {
                         return (
                           <Option key={i}>{employee}</Option>
@@ -228,7 +198,7 @@ const GetDetails = () => {
           <Button className="bg-blue" onClick={handlePrev} disabled={isFirstStep}>
             Prev
           </Button>
-          <Button className="bg-blue"  onClick={isLastStep ? handleSubmit :handleNext}>
+          <Button className="bg-blue" onClick={isLastStep ? handleSubmit : handleNext}>
             {isLastStep ? "Done" : "Next"}
           </Button>
         </div>

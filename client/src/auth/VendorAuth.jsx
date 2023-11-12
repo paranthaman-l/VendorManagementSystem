@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import VendorService from "../services/VendorService";
-import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setVendor } from "../slices/vendorSlice";
 
@@ -22,6 +21,7 @@ const VendorAuth = () => {
             if (role === "VENDOR") {
               VendorService.getVendorData(response.data.uid).then((res)=>{
                 dispatch(setVendor(res.data));
+                console.log(res.data);
                 console.log(res.data);
                 navigate(path);
               }).catch(()=>{

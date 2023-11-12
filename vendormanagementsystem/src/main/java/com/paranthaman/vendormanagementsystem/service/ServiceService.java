@@ -26,17 +26,14 @@ public class ServiceService {
 
     public String addService(ServiceModel serviceModel, String vid) {
         serviceModel.setVendor(vendorRepository.findById(vid).get());
+        // serviceModel.setEmployees(vendorRepository.findById(vid).get().getEmployees());  
         serviceRepository.save(serviceModel);
         return "Service Added Successfully!";
     }
 
-    public Boolean putService(String sid, ServiceModel serviceModel) {
-        Boolean isExists = serviceRepository.findById(sid).isPresent();
-        if (!isExists)
-            return false;
-        ServiceModel storedServiceModel = serviceRepository.findById(sid).get();
-        ServiceModel newServiceModel = updateServiceModel(storedServiceModel, serviceModel);
-        serviceRepository.save(newServiceModel);
+    public Boolean putService(String vid, ServiceModel serviceModel) {
+        serviceModel.setVendor(vendorRepository.findById(vid).get());
+        serviceRepository.save(serviceModel);
         return true;
     }
 
@@ -66,6 +63,10 @@ public class ServiceService {
 
     public ArrayList<ServiceModel> getAllServicesByIds(List<String> ids) {
         return (ArrayList<ServiceModel>) serviceRepository.findAllById(ids);
+    }
+
+    public List<ServiceModel> getVendorServices(String vid) {
+        return vendorRepository.findById(vid).get().getServices();
     }
 
 }

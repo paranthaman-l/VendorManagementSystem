@@ -7,7 +7,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -38,6 +40,7 @@ import lombok.Setter;
 @Getter
 @Builder
 @Table(name = "contract")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "cid")
 public class ContractModel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -54,7 +57,6 @@ public class ContractModel {
     private String contractStatus; // A field indicating the current status of the contract (e.g., active, expired,
                                    // terminated).
 
-    @JsonBackReference
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_vid", referencedColumnName = "vid")
     private Vendor manyToOneVendor;

@@ -17,9 +17,6 @@ const adminApi = axios.create({
 // Vendor Api
 const vendorApi = axios.create({
     baseURL: import.meta.env.VITE_SERVER_VENDOR_BASE_URL,
-    headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    }
 })
 // Organization Api
 const organizationApi = axios.create({
@@ -31,6 +28,9 @@ const organizationApi = axios.create({
 // Service Api
 const serviceApi = axios.create({
     baseURL: import.meta.env.VITE_SERVER_SERVICE_BASE_URL,
+    headers:{
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    }
 })
 // Contract Api
 const contractApi = axios.create({

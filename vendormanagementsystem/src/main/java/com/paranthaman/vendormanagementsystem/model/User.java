@@ -8,6 +8,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.paranthaman.vendormanagementsystem.model.enumerate.Role;
 
 import jakarta.persistence.Column;
@@ -32,8 +34,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-
 @Table(name = "_user")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "uid")
 public class User implements UserDetails {
 
     @Id

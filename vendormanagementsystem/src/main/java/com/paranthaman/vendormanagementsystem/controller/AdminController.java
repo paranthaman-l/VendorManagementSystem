@@ -19,6 +19,8 @@ import com.paranthaman.vendormanagementsystem.dto.request.UpdateImageDTO;
 import com.paranthaman.vendormanagementsystem.dto.request.UpdateNameDTO;
 import com.paranthaman.vendormanagementsystem.dto.response.AdminDTO;
 import com.paranthaman.vendormanagementsystem.dto.response.DashBoardCount;
+import com.paranthaman.vendormanagementsystem.model.Admin;
+import com.paranthaman.vendormanagementsystem.model.Organization;
 import com.paranthaman.vendormanagementsystem.model.Vendor;
 import com.paranthaman.vendormanagementsystem.service.AdminService;
 
@@ -41,13 +43,17 @@ public class AdminController {
 
     
     @GetMapping("/byAid")
-    public AdminDTO getAdmin(@RequestParam String aid) {
+    public Admin getAdmin(@RequestParam String aid) {
         return adminService.getAdmin(aid);
     }
 
     @GetMapping("/getVendors")
     public List<Vendor> getPendingVendors(@RequestParam Boolean verified) {
         return adminService.getVendors(verified);
+    }
+    @GetMapping("/getOrganizations")
+    public List<Organization> getOrganizations(@RequestParam Boolean verified) {
+        return adminService.getOrganizations(verified);
     }
 
     @GetMapping("/getCount")
