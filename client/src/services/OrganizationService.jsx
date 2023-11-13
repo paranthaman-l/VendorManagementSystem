@@ -12,6 +12,8 @@ class OrganizationService {
     getAllRequested=()=>organizationApi.get("/getServiceRequests/"+localStorage.getItem("id"));
 
     deleteRequest=(sid)=>organizationApi.delete("/deleteServiceRequest/"+sid);
+
+    getApplyRequest=(sid)=>organizationApi.get("/getApplyRequest/"+sid);
 }
 
 export default new OrganizationService();

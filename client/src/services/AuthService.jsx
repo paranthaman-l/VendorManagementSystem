@@ -11,5 +11,7 @@ class AuthService {
 
     getOrganization = (oid) => authApi.get("/byOid/" + oid);
 
+    getVendor = (vid) => authApi.get("/byVid/" + vid);
+
 }
 export default new AuthService();

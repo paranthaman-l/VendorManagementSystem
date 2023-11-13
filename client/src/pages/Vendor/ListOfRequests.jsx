@@ -6,10 +6,11 @@ import deleteIcon from '../../assets/imgs/delete.svg';
 import Organization from './Organization';
 import { Button } from '@material-tailwind/react';
 import ApplyContract from './ApplyContract';
+import { useNavigate } from 'react-router-dom';
 const ListOfRequests = () => {
+    const navigate = useNavigate();
     const [requested, setRequested] = useState([]);
     const [data, setData] = useState({});
-    const [sid, setSid] = useState("");
     const getAllRequested = async () => {
         await VendorService.getAllRequested().then((response) => {
             setRequested(response.data)
@@ -33,8 +34,9 @@ const ListOfRequests = () => {
     const applyRef = useRef();
     const handleApplyContract =async (e) => {
         e.preventDefault();
-        await VendorService.applyContract(sid,data).then((res)=>{
-            console.log(res);
+        await VendorService.applyContract(data?.sid,data).then((res)=>{
+            if(res.status==200)
+                navigate("/vendor/home")
         }).catch((e)=>{
             console.log(e);
         })
@@ -64,7 +66,7 @@ const ListOfRequests = () => {
                                         <p className=' text-darkGray mt-2'>{request?.description}</p>
                                     </div>
                                     <div className="pr-10">
-                                        <Button onClick={() => {setShowApplyContract(true);setSid(request?.sid)}} className='bg-green-500'>Apply</Button>
+                                        <Button onClick={() => {setShowApplyContract(true);setData({...data,sid:request?.sid})}} className='bg-green-500'>Apply</Button>
                                     </div>
                                 </div>
                             </div>
