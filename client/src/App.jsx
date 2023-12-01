@@ -45,6 +45,7 @@ import OrganizationService from "./services/OrganizationService";
 import { setOrganization } from "./slices/organizationSlice";
 import Loader from "./components/Loader"
 import ListOfRequests from "./pages/Vendor/ListOfRequests";
+import Contract from "./pages/Organization/Contract";
 function App() {
   // const navigate = useNavigate();
   // useEffect(() => {
@@ -135,8 +136,8 @@ function App() {
         <Route path="/policy" element={<Policy />} />
         <Route path="/terms&condition" element={<Terms />} />
         <Route path="/admin/login" element={<AdminLogin />} />
-
         <Route path="*" element={<Error404 />} />
+
 
         {/* Vendors */}
         <Route element={<VendorAuth />}>
@@ -151,9 +152,10 @@ function App() {
 
         {/* Organization */}
         <Route element={<OrganizationAuth />}>
-          <Route path="organization/home" element={<OrganizationHome />} />
-          <Route path="organization/requestRise" element={<ServiceRequest />} />
+          <Route path="/organization/home" element={<OrganizationHome />} />
+          <Route path="/organization/requestRise" element={<ServiceRequest />} />
           <Route path="/organization/requested" element={<RequestedService />} />
+          <Route path="/organization/contract" element={<Contract />} />
         </Route>
 
         {/* Admin */}

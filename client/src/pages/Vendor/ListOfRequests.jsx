@@ -7,6 +7,7 @@ import Organization from './Organization';
 import { Button } from '@material-tailwind/react';
 import ApplyContract from './ApplyContract';
 import { useNavigate } from 'react-router-dom';
+import write from "../../assets/imgs/write.png"
 const ListOfRequests = () => {
     const navigate = useNavigate();
     const [requested, setRequested] = useState([]);
@@ -21,7 +22,7 @@ const ListOfRequests = () => {
     useEffect(() => {
         getAllRequested()
     }, [])
-   
+
     // const handleDelete = async (sid) => {
     //     await VendorService.deleteRequest(sid).then((response) => {
     //         if (response.status === 200)
@@ -32,12 +33,12 @@ const ListOfRequests = () => {
     // }
     const [showApplyContract, setShowApplyContract] = useState(false);
     const applyRef = useRef();
-    const handleApplyContract =async (e) => {
+    const handleApplyContract = async (e) => {
         e.preventDefault();
-        await VendorService.applyContract(data?.sid,data).then((res)=>{
-            if(res.status==200)
+        await VendorService.applyContract(data?.sid, data).then((res) => {
+            if (res.status == 200)
                 navigate("/vendor/home")
-        }).catch((e)=>{
+        }).catch((e) => {
             console.log(e);
         })
     }
@@ -54,10 +55,22 @@ const ListOfRequests = () => {
             {showApplyContract && <ApplyContract data={data} setData={setData} applyRef={applyRef} setShowApplyContract={setShowApplyContract} handleApplyContract={handleApplyContract} />}
             <Toaster position='top-right' />
             <SideBar />
-            <div className="ml-60 mr-10 mt-20 flex flex-col ">
+            <div className="ml-60 mr-10 mt-3 flex flex-col ">
+            <div className="flex justify-between px-10 py-3 rounded-xl bg-white shadow-xl">
+                <div className="flex justify-center items-center">
+                    <img className='h-16 w-16 mr-5' src={write} alt="" />
+                    <p className='font-openSans text-2xl my-1 '>Service Requests</p>
+                </div>
+                <div className="flex justify-center items-center">
+                    <div className="flex mx-5 justify-between min-w-[300px] border-[2px] rounded-3xl border-darkGray border-opacity-20 ">
+                        <input className="px-2 w-full ml-3 py-2 outline-none bg-transparent" type="text" placeholder="Search" />
+                        <img className="mr-2" src="" alt="" />
+                    </div>
+                </div>
+            </div>
                 {requested?.map((request, i) => {
                     return (
-                        <div key={i} className="flex bg-white p-5 rounded-xl justify-between">
+                        <div key={i} className="flex bg-white p-5 my-3 rounded-xl justify-between">
                             <div className="flex flex-col p-3 w-full">
                                 <Organization vid={request?.vid} />
                                 <div className="mx-10 my-4 flex justify-between items-center w-full">
@@ -66,7 +79,7 @@ const ListOfRequests = () => {
                                         <p className=' text-darkGray mt-2'>{request?.description}</p>
                                     </div>
                                     <div className="pr-10">
-                                        <Button onClick={() => {setShowApplyContract(true);setData({...data,sid:request?.sid})}} className='bg-green-500'>Apply</Button>
+                                        <Button onClick={() => { setShowApplyContract(true); setData({ ...data, sid: request?.sid }) }} className='bg-green-500'>Apply</Button>
                                     </div>
                                 </div>
                             </div>

@@ -14,6 +14,8 @@ class OrganizationService {
     deleteRequest=(sid)=>organizationApi.delete("/deleteServiceRequest/"+sid);
 
     getApplyRequest=(sid)=>organizationApi.get("/getApplyRequest/"+sid);
+
+    MakeContract = (vid,data) => organizationApi.post("/postContract?oid="+localStorage.getItem("id")+"&vid="+vid,data);
 }
 
 export default new OrganizationService();

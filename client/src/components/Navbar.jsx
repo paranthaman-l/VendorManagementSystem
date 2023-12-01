@@ -5,7 +5,7 @@ import { RiArrowDropDownLine } from 'react-icons/ri'
 import { useLocation, useNavigate } from 'react-router-dom';
 import Company from './Company';
 import Resource from './Resource';
-import { CgMenu,CgClose } from 'react-icons/cg';
+import { CgMenu, CgClose } from 'react-icons/cg';
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,7 +29,7 @@ const Navbar = () => {
     "/login",
     "/signUp",
     "/forgetPwd",
-    "/admin/*",
+    "/getDetails",
     "/admin/login",
     "/admin/dashboard",
     "/admin/vendors",
@@ -46,12 +46,11 @@ const Navbar = () => {
     "/vendor/riskManagement",
     "/vendor/certifications",
     "/vendor/profile",
-    "/vendor/*",
-    "/organization/*",
-    "/getDetails",
+    "/vendor/serviceRequests",
     "/organization/home",
     "/organization/requested",
-    "/organization/requestRise"
+    "/organization/requestRise",
+    "/organization/contract"
   ]
   return (
     <>
@@ -66,12 +65,12 @@ const Navbar = () => {
             <CgMenu className='text-2xl ' onClick={() => setIsShow(true)} />
           </div>
           <div className={` ${isShow ? "lg-max:block" : "lg-max:hidden"}  min-w-[75%] flex justify-between items-center lg-max:flex-col lg-max:left-0 lg-max:absolute lg-max:bg-blue lg-max:bg-opacity-90 top-0 left-0 lg-max:min-h-screen lg-max:w-full`}>
-          <div className="lg:hidden absolute right-10 top-8 text-2xl text-white">
-            <CgClose onClick={() => setIsShow(false)} />
-          </div>
+            <div className="lg:hidden absolute right-10 top-8 text-2xl text-white">
+              <CgClose onClick={() => setIsShow(false)} />
+            </div>
             <div className="w-full text-indigo1 ">
               <ul className='flex justify-evenly w-full items-center lg-max:flex-col lg-max:justify-start lg-max:mt-20'>
-                <li  className='flex justify-center items-center font-poppins font-bold hover:text-blue cursor-pointer lg-max:py-10 lg-max:text-white'>
+                <li className='flex justify-center items-center font-poppins font-bold hover:text-blue cursor-pointer lg-max:py-10 lg-max:text-white'>
                   Vendors <RiArrowDropDownLine className='text-2xl' />
                 </li>
                 <li className='flex justify-center items-center font-poppins font-bold hover:text-blue cursor-pointer lg-max:py-10 lg-max:text-white'>

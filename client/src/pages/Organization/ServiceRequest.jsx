@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast'
 import SideBar from './SideBar'
 import OrganizationService from '../../services/OrganizationService'
 import { useNavigate } from 'react-router-dom'
+import ClientNavbar from './Navber'
 
 const ServiceRequest = () => {
     const [request, setRequest] = useState({
@@ -26,6 +27,7 @@ const ServiceRequest = () => {
     
     return (
         <div className='mt-20 flex flex-col min-h-screen bg-lightGray2'>
+             <ClientNavbar/>
             <Toaster position='top-right' />
             <SideBar />
             <div className="mx-80 mt-24 h-full flex justify-center items-center">

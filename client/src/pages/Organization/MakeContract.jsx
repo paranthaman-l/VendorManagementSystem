@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react'
 
-const MakeContract = ({ ref, handleMakeContract, data, setData }) => {
+const MakeContract = ({ viewRef, handleMakeContract, data, setData }) => {
     const [error, setError] = useState({});
     const handleChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value })
@@ -15,8 +15,8 @@ const MakeContract = ({ ref, handleMakeContract, data, setData }) => {
         // paymentTerms
         // contractStatus
         // createdBy
-        <form onSubmit={handleMakeContract} className="w-full z-30 bg-black bg-opacity-20 flex justify-center items-center fixed h-screen">
-            <div ref={ref} className="bg-white rounded-xl min-h-[400px] w-1/2 items-center flex justify-center">
+        <form onSubmit={handleMakeContract} className="w-full z-30 top-0 bg-black bg-opacity-20 flex justify-center items-center fixed h-screen">
+            <div ref={viewRef} className="bg-white p-10 rounded-xl min-h-[400px] w-1/2 items-center flex justify-center">
                 <div className="flex items-center justify-center w-full flx flex-col mt-5">
                     <input
                         type="text"
@@ -71,6 +71,7 @@ const MakeContract = ({ ref, handleMakeContract, data, setData }) => {
                         name="contractValue"
                         id="contractValue"
                         // onChange={handleChange}
+                        disabled={true}
                         value={data.contractValue}
                     />
                     <button type="submit" onClick={handleMakeContract} className="btn mt-4 rounded-md bg-indigo px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo2  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo min-w-[100px]">Apply Contract</button>

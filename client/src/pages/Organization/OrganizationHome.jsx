@@ -11,7 +11,7 @@ const OrganizationHome = () => {
         <Toaster position='top-right' />
         <SideBar />
         <div className="mx-80">
-        
+            
         </div>
       </div>
     </>

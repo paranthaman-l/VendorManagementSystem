@@ -18,5 +18,9 @@ class AdminService {
     getVendors = (verified) => adminApi.get('/getVendors', { params: { verified } });
 
     getOrganization = (verified) => adminApi.get('/getOrganizations', { params: { verified } });
+
+    getAllContracts = () => adminApi.get('/getAll');
+
+    getBySearch=(search)=>adminApi.get("/getContractByTitle/"+search);
 }
 export default new AdminService();

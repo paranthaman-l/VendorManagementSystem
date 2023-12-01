@@ -29,8 +29,8 @@ const AddEmployee = ({ addRef,
         await VendorService.addEmployee(employee,sid, vendor?.vid).then((response) => {
             if (response.status == 200) {
                 toast.success(response.data)
-                setShowAddEmployee(false)
                 getEmployee();
+                setShowAddEmployee(false)
             }
         }).catch((err) => {
             console.log(err);

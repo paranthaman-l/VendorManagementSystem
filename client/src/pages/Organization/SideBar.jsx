@@ -16,14 +16,14 @@ const SideBar = () => {
             <div className=" bg-white h-full ">
                 <div className="pl-10">
                     <ul className="space-y-8 pt-10">
-                        <li className="flex space-x-4 items-center hover:text-indigo-600 cursor-pointer">
+                        {/* <li onClick={()=>navigate('/organization/home')} className="flex space-x-4 items-center hover:text-indigo-600 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                     d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
                             </svg>
                             <p>Dashboard</p>
-                        </li>
+                        </li> */}
                         <li onClick={()=>navigate('/organization/requestRise')} className="flex space-x-4 items-center hover:text-indigo-600 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
@@ -40,7 +40,7 @@ const SideBar = () => {
                             </svg>
                             <p>Requested </p>
                         </li>
-                        <li className="flex space-x-4 items-center hover:text-indigo-600 cursor-pointer">
+                        <li onClick={()=>navigate('/organization/contract')} className="flex space-x-4 items-center hover:text-indigo-600 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -56,7 +56,7 @@ const SideBar = () => {
                             </svg>
                             <p>Security</p>
                         </li> */}
-                        <li className="flex space-x-4 items-center hover:text-indigo-600 cursor-pointer">
+                        {/* <li className="flex space-x-4 items-center hover:text-indigo-600 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -71,7 +71,7 @@ const SideBar = () => {
                                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <p>Payments</p>
-                        </li>
+                        </li> */}
                         {/* <li className="flex space-x-4 items-center hover:text-indigo-600 cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">

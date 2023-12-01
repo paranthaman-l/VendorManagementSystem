@@ -77,6 +77,12 @@ const ClientNavbar = () => {
         "/login",
         "/signUp",
         "/forgetPwd",
+        "/about",
+        "/contact",
+        "/policy",
+        "/terms&condition",
+        "/faq",
+        "/getDetails",
         "/admin/login",
         "/admin/vendors",
         "/admin/contracts",
@@ -85,13 +91,10 @@ const ClientNavbar = () => {
         "/admin/complaints",
         "/admin/account",
         "/admin/team",
-        "/about",
-        "/contact",
-        "/policy",
-        "/terms&condition",
-        "/faq",
-        "/getDetails",
-        "/organization/home"
+        "/organization/home",
+        "/organization/requestRise",
+        "/organization/requested",
+        "/organization/contract",
     ]
     return (
         <>

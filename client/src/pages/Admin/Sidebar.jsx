@@ -41,7 +41,7 @@ const Sidebar = ({ showSidebar }) => {
                                 <span className='flex flex-col justify-center items-center'><LiaFileContractSolid /><span className='text-sm font-light'>Contracts</span></span>
                             </p>
                         </li>
-                        <li className={`${currentPath==='/admin/complaints' && "text-blue"} text-3xl h-24 flex justify-center items-center font-nutnitoSans py-4 border-b-[1px] border-gray1 border-opacity-40 w-full text-center font-bold `}>
+                        {/* <li className={`${currentPath==='/admin/complaints' && "text-blue"} text-3xl h-24 flex justify-center items-center font-nutnitoSans py-4 border-b-[1px] border-gray1 border-opacity-40 w-full text-center font-bold `}>
                             <p onClick={() => navigate('/admin/complaints')} className="cursor-pointer hover:text-blue">
                                 <span className='flex flex-col justify-center items-center '><TbNotes /><span className='text-sm font-light'>Complaints</span></span>
                             </p>
@@ -50,7 +50,7 @@ const Sidebar = ({ showSidebar }) => {
                             <p onClick={() => navigate('/admin/team')} className="cursor-pointer hover:text-blue">
                                 <span className='flex flex-col justify-center items-center '><AiOutlineTeam /><span className='text-sm font-light'>Our Team</span></span>
                             </p>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
             }
